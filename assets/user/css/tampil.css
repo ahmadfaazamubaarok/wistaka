@@ -1,0 +1,106 @@
+.swiper {
+            width: 100%;
+            max-width: 600px;
+            height: 280px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .swiper-slide img {
+            width: 550px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff;
+            width: 10px;
+            height: 10px;
+            opacity: 0.8;
+        }
+        /*card*/
+        /* Background utama */
+        .slider-section {
+            position: relative;
+            background: url("assets/images/bg.jpeg") no-repeat center center/cover;
+            padding: 50px 0;
+        }
+
+        .slider-overlay {
+            
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Styling Card */
+        .card-slider .item {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-slider .item:hover {
+            transform: scale(1.05);
+        }
+
+        .card-slider a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-slider img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .card-content h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .card-content h5 {
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .card-content p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Responsif: Selalu menampilkan 3 card di mobile */
+        @media (max-width: 768px) {
+            .owl-carousel .owl-stage-outer {
+                padding-right: 10px !important;
+            }
+
+            .card-slider .item {
+                margin: 0 5px; /* Supaya mepet */
+            }
+        }
