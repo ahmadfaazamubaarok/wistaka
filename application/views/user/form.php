@@ -9,6 +9,9 @@
 
 	<title>Tale SEO Agency CSS Template by TemplateMo website</title>
 
+	 <!-- Summernote CSS -->
+  	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -226,32 +229,8 @@
 }
 </style>
 </head>
+
 <body>
-	<?php if ($this->session->flashdata('sukses_tambah_wisata')): ?>
-	<div class="modal fade" tabindex="-1" id="sukses-tambah-wisata">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Modal title</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-	      	<h3>Terimakasih sudah menambahkan wisata</h3>
-	        <p>Silakan menunggu konfirmasi dari pihak admin untuk menampilkan wisata yang telah ditambahkan.</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<script>
-	  document.addEventListener("DOMContentLoaded", function() {
-	    var myModal = new bootstrap.Modal(document.getElementById('sukses-tambah-wisata'));
-	    myModal.show();
-	  });
-	</script>
-	<?php endif ?>
 	<!-- ***** Header Area Start ***** -->
 	<nav class="navbar navbar-dark custom-navbar">
 		<div class="container-fluid">
@@ -275,131 +254,101 @@
 	</div>
 </nav>
 <header class="header">
-	<div class="search-container">
-		<input type="text" id="search-wisata" placeholder="Cari sesuatu...">
-		<button onclick="search()">Cari</button>
-	</div>
 </header>
 <br><br>
-	<div class="container">
-		<div id="result-search-wisata" class="row justify-content-center"></div>
-	</div>
-
+<div class="container">
+	
 <!-- ***** Header Area End ***** -->
-<div class="services section" id="services">
-	<div class="container">
-		<div class="row">
-			<div class="col-12 text-center">
-				<br>
-				<h2 style="color: black; font-size: 20px;">ALL YOU CAN VISIT</h2>
-			</div>
-			<div class="col-12">
-				<div class="category-container">
-					<!-- Kategori Wisata -->
-					<?php foreach ($kategori as $key): ?>
-					<a href="<?= site_url('welcome/kategori/'.$key->nama_kategori) ?>" class="category-link">
-						<div class="category-item">
-							<div class="icon rounded-circle">
-								<img src="<?= base_url('uploads/ikon_kategori/'.$key->ikon_kategori) ?>" alt="Hutan">
-							</div>
-							<h4 class="category-title"><?= $key->nama_kategori ?></h4>
-						</div>
-					</a>
-					<?php endforeach ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<br>
-<?php foreach ($unggulan as $u): ?>
-<div class="slider-section" style="background: url('<?= base_url('uploads/background_unggulan/'.$u->background_unggulan)?>') no-repeat center center/cover">
-	<div class="slider-overlay"></div>
-	<div class="container">
-		<div class="tengah">
-			<h2 class="text-center" style="color: white; font-size: 15px;">DESTINASI WISATA <?= $u->nama_kategori ?></h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider">
-			<?php $wisata = $this->wisata_model->get_wisata_by_kategori($u->id_kategori) ?>
-			<?php foreach ($wisata as $key): ?>
-			<a href="<?= site_url('welcome/wisata/').$key->nama_wisata ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_wisata/').$key->thumbnail_wisata ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->nama_wisata ?></h4>
-						<p><?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?></p>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<div class="projects section" id="projects">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-8"> <!-- Sesuaikan ukuran container -->
-				<div class="section-heading text-center">
-					<h5><em>Rekomendasi</em></h5>
-					<br>
-				</div>
-				<div class="swiper mySwiper" style="max-width: 400px; height: 200px; margin: auto;">
-					<div class="swiper-wrapper">
-						<?php foreach ($iklan as $key): ?>
-						<div class="swiper-slide">
-							<img src="<?= base_url('uploads/iklan/'.$key->iklan) ?>" style="width: 100%; height: 100%; object-fit: cover;">
-						</div>
-						<?php endforeach ?>
-					</div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		</div> 
-	</div>
-</div>
-<br>
-<?php endforeach ?>
-<div class="slider-section">
-	<div class="slider-overlay"></div>
-	<div class="container">
-		<div class="tengah">
-			<h2 class="text-center">Artikel</h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider">
-			<?php foreach ($artikel as $key): ?>
-			<a href="<?= site_url('artikel/artikel_detail/').$key->slug ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_artikel/').$key->thumbnail_artikel ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->judul_artikel ?></h4>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
-<div class="card m-3">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-lg-4">
-				<img src="<?= base_url('assets/user/images/jogja.jpg') ?>" class="img-fluid rounded">
-			</div>
-			<div class="col-lg-8">
-				<h2>Tambahkan wisata baru</h2>
-				<p>Isi formulir deskripsi wisata yang diusulkan kepada admin untuk ditampilkan</p>
-				<a href="<?= site_url('wisata/daftar') ?>" class="btn btn-primary ">Tambahkan wisata</a>
-			</div>
-		</div>
-	</div>
-</div>
+<form action="<?= site_url('wisata/wisata_addsave') ?>" method="POST" enctype="multipart/form-data" class="mb-5">
+    <label>Kontak:</label>
+    <input type="text" name="kontak" class="form-control" required>
 
+    <label>Nama Wisata:</label>
+    <input type="text" name="nama_wisata" class="form-control" required>
+
+    <label for="thumbnail_wisata">Thumbnail:</label>
+    <input type="file" name="thumbnail_wisata" id="thumbnail_wisata" class="form-control" required>
+
+    <label for="text">Deskripsi:</label>
+    <textarea required class="form-control editor" name="deskripsi_wisata" id="text"></textarea>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="text">Jam Buka:</label>
+            <textarea required class="form-control editor" name="jam_buka" id="text"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label for="text">Harga Masuk:</label>
+            <textarea required class="form-control editor" name="harga_masuk" id="text"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label for="text">Parkir:</label>
+            <textarea required class="form-control editor" name="parkir" id="text"></textarea>
+        </div>
+        <div class="col-md-6">
+            <label for="text">Fasilitas:</label>
+            <textarea required class="form-control editor" name="fasilitas" id="text"></textarea>
+        </div>
+    </div>
+    <label for="text">Alamat:</label>
+    <textarea required class="form-control" name="alamat" id="text"></textarea>
+    <label for="map">Link Map:</label>
+    <input type="text" name="map" class="form-control" required>
+    <label for="kategori">Kategori Wisata:</label>
+    <select name="kategori" class="form-control" required>
+        <option value="" disabled selected>Pilih kategori</option>
+        <?php foreach ($kategori as $key): ?>
+        <option value="<?= $key->id_kategori ?>"><?= $key->nama_kategori ?></option>
+        <?php endforeach ?>
+    </select>
+    <label>Galeri foto</label>
+    <input class="form-control" name="galeri[]" type="file" id="imageInput" multiple accept="image/*">
+  	<div id="previewContainer" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+</form>
+</div>
+<script>
+  const input = document.getElementById('imageInput');
+  const preview = document.getElementById('previewContainer');
+
+  input.addEventListener('change', function () {
+    preview.innerHTML = ''; // Kosongkan preview dulu
+
+    const files = Array.from(this.files);
+
+    files.forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '120px';
+        img.style.maxHeight = '120px';
+        img.style.border = '1px solid #ccc';
+        img.style.borderRadius = '8px';
+        img.style.objectFit = 'cover';
+        preview.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.editor').summernote({
+            height: 100,  // Tinggi editor
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
 <footer class="footer">
 	<div class="social-icons">
 		<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -414,63 +363,22 @@
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="assets/js/tabs.js"></script>
-<script src="assets/js/popup.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<!-- Summernote JS -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
-	var swiper = new Swiper(".mySwiper", {
-		slidesPerView: 1,
-		spaceBetween: 10,
-		loop: true,
-		autoplay: {
-			delay: 2500,
-			disableOnInteraction: false,
-		},
-		pagination: {
-			el: ".swiper-pagination",
-			clickable: true,
-		},
-	});
+    $(document).ready(function() {
+        $('.editor').summernote({
+            height: 100,  // Tinggi editor
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
 </script>
-<!-- card -->
-<script>
-	$(document).ready(function(){
-		$(".card-slider").owlCarousel({
-			loop: true,
-			margin: 5,
-			nav: false,
-			autoplay: true,
-			autoplayTimeout: 2500,
-			autoplayHoverPause: true,
-			responsive: {
-				0: { items: 3 }, /* 3 Card di layar kecil */
-				480: { items: 3 }, /* Tetap 3 Card */
-				768: { items: 4 }, /* 4 Card di tablet */
-				1024: { items: 5 }  /* 5 Card di desktop */
-			}
-		});
-	});
-</script>
-<!-- script untuk search -->
-<script>
-  $('#search-wisata').on('keyup', function () {
-    var keyword = $(this).val();
-    if (keyword.length >= 2) {
-      $.ajax({
-        url: "<?= site_url('wisata/search'); ?>",
-        method: "POST",
-        data: { search: keyword },
-        success: function (response) {
-          $('#result-search-wisata').html(response); // tampilkan HTML view
-        }
-      });
-    } else {
-      $('#result-search-wisata').html('');
-    }
-  });
-</script>
-
 </body>
 
 </html>

@@ -3,6 +3,9 @@
 <?php $this->load->view('admin/template/navbar') ?>
 <form action="<?= site_url('admin/wisata/wisata_editsave') ?>" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id_wisata" value="<?= htmlspecialchars($wisata->id_wisata, ENT_QUOTES, 'UTF-8'); ?>">
+    <label for="judul_wisata">Kontak:</label>
+    <input type="text" name="kontak" class="form-control" required value="<?= htmlspecialchars($wisata->kontak, ENT_QUOTES, 'UTF-8'); ?>">
+
     <label for="judul_wisata">Nama Wisata:</label>
     <input type="text" name="nama_wisata" class="form-control" required value="<?= htmlspecialchars($wisata->nama_wisata, ENT_QUOTES, 'UTF-8'); ?>">
 

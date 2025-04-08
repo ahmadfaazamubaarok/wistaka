@@ -24,8 +24,6 @@ if ($key->draft === 'false') {
                         <div class="mt-1">
                             <div class="w-100">
                                 <div class="d-flex justify-content-start align-items-center">
-		                            <img src="<?= base_url('assets/images/default.jpg') ?>" 
-	                                 style="border-radius: 20px; height: 40px; width: 40px; margin-right: 10px;">
                                     <div>
                                         <span class="fs-2"><?= $key->id_artikel ?></span>
                                         <h4><?= $key->judul_artikel ?></h4>

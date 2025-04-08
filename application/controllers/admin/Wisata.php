@@ -36,41 +36,46 @@ class Wisata extends CI_Controller {
     }
 
     public function wisata_addsave() {
-        $this->load->library('upload'); // Load library upload
+        $this->load->library('upload');
         header('Content-Type: application/json');
 
         $id_wisata = 'WS' . date('ymdhis');
-
-        // Path untuk masing-masing folder
         $thumbnail_path = './uploads/thumbnail_wisata/';
 
         // Konfigurasi upload
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size']      = 2048; // 2MB
-        $config['upload_path']   = $thumbnail_path;
+        $config['max_size'] = 2048; // 2MB
+        $config['upload_path'] = $thumbnail_path;
 
-        // Pastikan folder ada
         if (!is_dir($thumbnail_path)) {
             mkdir($thumbnail_path, 0777, true);
         }
 
         $thumbnail_wisata = '';
 
-        // Upload thumbnail_wisata
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload('thumbnail_wisata')) {
-            $thumbnail_data = $this->upload->data();
-            
-            // Rename file dengan menambahkan ID wisata
-            $ext = pathinfo($thumbnail_data['file_name'], PATHINFO_EXTENSION);
-            $new_filename = $id_wisata . '.' . $ext;
-            
-            rename($thumbnail_data['full_path'], $thumbnail_path . $new_filename);
-            
-            $thumbnail_wisata = $new_filename;
+        if (!empty($_FILES['thumbnail_wisata']['name'])) {
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('thumbnail_wisata')) {
+                $thumbnail_data = $this->upload->data();
+
+                $ext = pathinfo($thumbnail_data['file_name'], PATHINFO_EXTENSION);
+                $new_filename = $id_wisata . '.' . $ext;
+
+                rename($thumbnail_data['full_path'], $thumbnail_path . $new_filename);
+                $thumbnail_wisata = $new_filename;
+            } else {
+                $error = $this->upload->display_errors('', '');
+                if (strpos(strtolower($error), 'exceeds the maximum allowed size') !== false) {
+                    $error = 'Ukuran file terlalu besar. Maksimal 2MB.';
+                }
+                $this->set_output(['status' => 'error', 'message' => $error]);
+                return;
+            }
         }
 
         $data = [
+            'kontak' => $this->input->post('kontak', TRUE),
             'id_wisata' => $id_wisata,
             'kategori' => $this->input->post('kategori', TRUE),
             'thumbnail_wisata' => $thumbnail_wisata,
@@ -86,60 +91,59 @@ class Wisata extends CI_Controller {
         ];
 
         if ($this->wisata_model->insert_wisata($data)) {
-            $this->session->set_flashdata('sukses','Sukses menambahkan wisata');
-            redirect('admin/wisata');
+            $this->session->set_flashdata('sukses', 'Sukses menambahkan wisata');
         } else {
-            $this->session->set_flashdata('gagal','Gagal menambahkan wisata');
-            redirect('admin/wisata');
+            $this->session->set_flashdata('gagal', 'Gagal menambahkan wisata');
         }
+
+        redirect('admin/wisata');
     }
+
 
     public function wisata_editsave() {
         $id_wisata = $this->input->post('id_wisata');
-        $this->load->library('upload'); // Load library upload
+        $this->load->library('upload');
         header('Content-Type: application/json');
 
-        // Path untuk folder thumbnail
         $thumbnail_path = './uploads/thumbnail_wisata/';
 
         // Konfigurasi upload
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size']      = 2048; // 2MB
-        $config['upload_path']   = $thumbnail_path;
+        $config['max_size'] = 2048; // 2MB
+        $config['upload_path'] = $thumbnail_path;
 
-        // Pastikan folder ada
         if (!is_dir($thumbnail_path)) {
             mkdir($thumbnail_path, 0777, true);
         }
 
-        // Ambil data wisata lama
         $wisata_lama = $this->wisata_model->get_wisata_by_id_wisata($id_wisata);
-        $thumbnail_wisata = $wisata_lama->thumbnail_wisata; // Default: gunakan gambar lama
+        $thumbnail_wisata = $wisata_lama->thumbnail_wisata;
 
-        // Upload thumbnail baru jika ada
         if (!empty($_FILES['thumbnail_wisata']['name'])) {
             $this->upload->initialize($config);
             if ($this->upload->do_upload('thumbnail_wisata')) {
-                // Hapus file lama
                 if ($thumbnail_wisata && file_exists($thumbnail_path . $thumbnail_wisata)) {
                     unlink($thumbnail_path . $thumbnail_wisata);
                 }
-                
-                // Rename file dengan mengganti nama menjadi ID wisata
+
                 $thumbnail_data = $this->upload->data();
                 $ext = pathinfo($thumbnail_data['file_name'], PATHINFO_EXTENSION);
                 $new_filename = $id_wisata . '.' . $ext;
                 rename($thumbnail_data['full_path'], $thumbnail_path . $new_filename);
-                
+
                 $thumbnail_wisata = $new_filename;
             } else {
-                $this->set_output(['status' => 'error', 'message' => $this->upload->display_errors('', '')]);
+                $error = $this->upload->display_errors('', '');
+                if (strpos(strtolower($error), 'exceeds the maximum allowed size') !== false) {
+                    $error = 'Ukuran file terlalu besar. Maksimal 2MB.';
+                }
+                $this->set_output(['status' => 'error', 'message' => $error]);
                 return;
             }
         }
 
-        // Data yang akan diperbarui
         $data = [
+            'kontak' => $this->input->post('kontak', TRUE),
             'kategori' => $this->input->post('kategori', TRUE),
             'thumbnail_wisata' => $thumbnail_wisata,
             'nama_wisata' => $this->input->post('nama_wisata', TRUE),
@@ -153,14 +157,13 @@ class Wisata extends CI_Controller {
             'publish' => $this->input->post('publish') ? 'true' : 'false',
         ];
 
-        // Simpan ke database
         if ($this->wisata_model->update_wisata($id_wisata, $data)) {
             $this->session->set_flashdata('sukses', 'Sukses mengedit wisata');
-            redirect('admin/wisata');
         } else {
             $this->session->set_flashdata('gagal', 'Gagal mengedit wisata');
-            redirect('admin/wisata');
         }
+
+        redirect('admin/wisata');
     }
 
     public function wisata_delete() {

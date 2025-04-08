@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 	<meta charset="utf-8">
@@ -41,7 +42,7 @@
 			position: relative;
 			width: 100%;
 			height: 250px; /* Ukuran landscape */
-			background: url('<?= base_url('assets/user/images/jogja.jpg') ?>') no-repeat center center/cover;
+			background: url('<?= base_url('uploads/thumbnail_artikel/'.$artikel->thumbnail_artikel) ?>') no-repeat center center/cover;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -226,32 +227,8 @@
 }
 </style>
 </head>
+
 <body>
-	<?php if ($this->session->flashdata('sukses_tambah_wisata')): ?>
-	<div class="modal fade" tabindex="-1" id="sukses-tambah-wisata">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Modal title</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-	      	<h3>Terimakasih sudah menambahkan wisata</h3>
-	        <p>Silakan menunggu konfirmasi dari pihak admin untuk menampilkan wisata yang telah ditambahkan.</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<script>
-	  document.addEventListener("DOMContentLoaded", function() {
-	    var myModal = new bootstrap.Modal(document.getElementById('sukses-tambah-wisata'));
-	    myModal.show();
-	  });
-	</script>
-	<?php endif ?>
 	<!-- ***** Header Area Start ***** -->
 	<nav class="navbar navbar-dark custom-navbar">
 		<div class="container-fluid">
@@ -275,131 +252,12 @@
 	</div>
 </nav>
 <header class="header">
-	<div class="search-container">
-		<input type="text" id="search-wisata" placeholder="Cari sesuatu...">
-		<button onclick="search()">Cari</button>
-	</div>
 </header>
 <br><br>
-	<div class="container">
-		<div id="result-search-wisata" class="row justify-content-center"></div>
-	</div>
-
-<!-- ***** Header Area End ***** -->
-<div class="services section" id="services">
-	<div class="container">
-		<div class="row">
-			<div class="col-12 text-center">
-				<br>
-				<h2 style="color: black; font-size: 20px;">ALL YOU CAN VISIT</h2>
-			</div>
-			<div class="col-12">
-				<div class="category-container">
-					<!-- Kategori Wisata -->
-					<?php foreach ($kategori as $key): ?>
-					<a href="<?= site_url('welcome/kategori/'.$key->nama_kategori) ?>" class="category-link">
-						<div class="category-item">
-							<div class="icon rounded-circle">
-								<img src="<?= base_url('uploads/ikon_kategori/'.$key->ikon_kategori) ?>" alt="Hutan">
-							</div>
-							<h4 class="category-title"><?= $key->nama_kategori ?></h4>
-						</div>
-					</a>
-					<?php endforeach ?>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="container">
+	<?= $artikel->teks ?>
 </div>
-<br>
-<?php foreach ($unggulan as $u): ?>
-<div class="slider-section" style="background: url('<?= base_url('uploads/background_unggulan/'.$u->background_unggulan)?>') no-repeat center center/cover">
-	<div class="slider-overlay"></div>
-	<div class="container">
-		<div class="tengah">
-			<h2 class="text-center" style="color: white; font-size: 15px;">DESTINASI WISATA <?= $u->nama_kategori ?></h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider">
-			<?php $wisata = $this->wisata_model->get_wisata_by_kategori($u->id_kategori) ?>
-			<?php foreach ($wisata as $key): ?>
-			<a href="<?= site_url('welcome/wisata/').$key->nama_wisata ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_wisata/').$key->thumbnail_wisata ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->nama_wisata ?></h4>
-						<p><?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?></p>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<div class="projects section" id="projects">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-8"> <!-- Sesuaikan ukuran container -->
-				<div class="section-heading text-center">
-					<h5><em>Rekomendasi</em></h5>
-					<br>
-				</div>
-				<div class="swiper mySwiper" style="max-width: 400px; height: 200px; margin: auto;">
-					<div class="swiper-wrapper">
-						<?php foreach ($iklan as $key): ?>
-						<div class="swiper-slide">
-							<img src="<?= base_url('uploads/iklan/'.$key->iklan) ?>" style="width: 100%; height: 100%; object-fit: cover;">
-						</div>
-						<?php endforeach ?>
-					</div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		</div> 
-	</div>
-</div>
-<br>
-<?php endforeach ?>
-<div class="slider-section">
-	<div class="slider-overlay"></div>
-	<div class="container">
-		<div class="tengah">
-			<h2 class="text-center">Artikel</h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider">
-			<?php foreach ($artikel as $key): ?>
-			<a href="<?= site_url('artikel/artikel_detail/').$key->slug ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_artikel/').$key->thumbnail_artikel ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->judul_artikel ?></h4>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
-<div class="card m-3">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-lg-4">
-				<img src="<?= base_url('assets/user/images/jogja.jpg') ?>" class="img-fluid rounded">
-			</div>
-			<div class="col-lg-8">
-				<h2>Tambahkan wisata baru</h2>
-				<p>Isi formulir deskripsi wisata yang diusulkan kepada admin untuk ditampilkan</p>
-				<a href="<?= site_url('wisata/daftar') ?>" class="btn btn-primary ">Tambahkan wisata</a>
-			</div>
-		</div>
-	</div>
-</div>
-
+<br><br>
 <footer class="footer">
 	<div class="social-icons">
 		<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -417,60 +275,6 @@
 <script src="assets/js/tabs.js"></script>
 <script src="assets/js/popup.js"></script>
 <script src="assets/js/custom.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script>
-	var swiper = new Swiper(".mySwiper", {
-		slidesPerView: 1,
-		spaceBetween: 10,
-		loop: true,
-		autoplay: {
-			delay: 2500,
-			disableOnInteraction: false,
-		},
-		pagination: {
-			el: ".swiper-pagination",
-			clickable: true,
-		},
-	});
-</script>
-<!-- card -->
-<script>
-	$(document).ready(function(){
-		$(".card-slider").owlCarousel({
-			loop: true,
-			margin: 5,
-			nav: false,
-			autoplay: true,
-			autoplayTimeout: 2500,
-			autoplayHoverPause: true,
-			responsive: {
-				0: { items: 3 }, /* 3 Card di layar kecil */
-				480: { items: 3 }, /* Tetap 3 Card */
-				768: { items: 4 }, /* 4 Card di tablet */
-				1024: { items: 5 }  /* 5 Card di desktop */
-			}
-		});
-	});
-</script>
-<!-- script untuk search -->
-<script>
-  $('#search-wisata').on('keyup', function () {
-    var keyword = $(this).val();
-    if (keyword.length >= 2) {
-      $.ajax({
-        url: "<?= site_url('wisata/search'); ?>",
-        method: "POST",
-        data: { search: keyword },
-        success: function (response) {
-          $('#result-search-wisata').html(response); // tampilkan HTML view
-        }
-      });
-    } else {
-      $('#result-search-wisata').html('');
-    }
-  });
-</script>
-
 </body>
 
 </html>

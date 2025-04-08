@@ -7,9 +7,7 @@ class Welcome extends CI_Controller {
 	{
 		$data['kategori'] = $this->kategori_model->get_kategori();
 		$data['unggulan'] = $this->kategori_model->get_kategori_by_unggulan();
-		// var_dump($data['unggulan']);
-		// die();
-		// $data['wisata'] = $this->wisata_model->get_wisata();
+		$data['artikel'] = $this->artikel_model->get_artikel();
 		$data['iklan'] = $this->iklan_model->get_iklan();
 		$this->load->view('user/home',$data);
 	}

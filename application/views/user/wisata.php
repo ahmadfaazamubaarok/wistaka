@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
 	<meta charset="UTF-8">
@@ -293,7 +293,7 @@
 							<img src="<?= base_url('uploads/thumbnail_wisata/'.$key->thumbnail_wisata) ?>" alt="">
 							<div class="content">
 								<h4><?= $key->nama_wisata ?></h4>
-								<p><?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 50) . "..." : $key->deskripsi_wisata; ?></p>
+								<p><?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?></p>
 							</div>
 						</a>
 					</div>

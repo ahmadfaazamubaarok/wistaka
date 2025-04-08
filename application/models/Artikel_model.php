@@ -15,6 +15,10 @@ class Artikel_model extends CI_Model {
         return $this->db->get_where($this->table, ['id_artikel' => $id_artikel])->row();
     }
 
+    public function get_artikel_by_slug($slug) {
+        return $this->db->get_where($this->table, ['slug' => $slug])->row();
+    }
+
     public function get_artikel() {
         $this->db->order_by('id_artikel', 'DESC');
         return $this->db->get($this->table)->result();

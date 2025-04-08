@@ -32,6 +32,7 @@ class Wisata_model extends CI_Model {
         $this->db->from('wisata');
         $this->db->join('kategori','wisata.kategori = kategori.id_kategori','left');
         $this->db->where('wisata.kategori', $id_kategori);
+        $this->db->where('wisata.publish','true');
         $this->db->order_by('id_wisata', 'DESC');
         return $this->db->get()->result();
     }
@@ -41,6 +42,7 @@ class Wisata_model extends CI_Model {
         $this->db->from('wisata');
         $this->db->join('kategori','wisata.kategori = kategori.id_kategori','left');
         $this->db->where('wisata.nama_wisata', $nama_wisata);
+        $this->db->where('wisata.publish','true');
         $this->db->order_by('id_wisata', 'DESC');
         return $this->db->get()->row();
     }
@@ -57,5 +59,15 @@ class Wisata_model extends CI_Model {
 
     public function count_wisata() {
         return $this->db->count_all_results($this->table);
+    }
+
+    public function search_wisata($keyword)
+    {
+        $this->db->select('wisata.*, kategori.nama_kategori');
+        $this->db->from('wisata');
+        $this->db->join('kategori', 'kategori.id_kategori = wisata.kategori');
+        $this->db->like('wisata.nama_wisata', $keyword);
+        $this->db->or_like('kategori.nama_kategori', $keyword);
+        return $this->db->get()->result();
     }
 }

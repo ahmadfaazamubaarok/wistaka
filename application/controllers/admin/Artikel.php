@@ -15,6 +15,14 @@ class Artikel extends CI_Controller {
         exit;
     }
 
+    private function generate_slug($string) {
+        $slug = strtolower(trim($string));
+        $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
+        $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
+        $slug = trim($slug, '-');                          // Hapus minus di awal/akhir
+        return $slug;
+    }
+
     public function index(){
         $this->load->view('admin/artikel/artikel_view');
     }
@@ -38,8 +46,6 @@ class Artikel extends CI_Controller {
         header('Content-Type: application/json');
 
         $id_artikel = 'AR' . date('ymdhis');
-
-        // Path untuk masing-masing folder
         $thumbnail_path = './uploads/thumbnail_artikel/';
 
         // Konfigurasi upload
@@ -58,19 +64,33 @@ class Artikel extends CI_Controller {
         $this->upload->initialize($config);
         if ($this->upload->do_upload('thumbnail_artikel')) {
             $thumbnail_data = $this->upload->data();
-            
+
             // Rename file dengan menambahkan ID artikel
             $ext = pathinfo($thumbnail_data['file_name'], PATHINFO_EXTENSION);
             $new_filename = $id_artikel . '.' . $ext;
-            
+
             rename($thumbnail_data['full_path'], $thumbnail_path . $new_filename);
-            
+
             $thumbnail_artikel = $new_filename;
+        } else {
+            // Tangani error upload (termasuk ukuran file terlalu besar)
+            $error = $this->upload->display_errors('', '');
+            if (strpos(strtolower($error), 'exceeds the maximum allowed size') !== false) {
+                $this->session->set_flashdata('gagal', 'Ukuran file terlalu besar. Maksimal 2MB.');
+            } else {
+                $this->session->set_flashdata('gagal', 'Upload gagal: ' . $error);
+            }
+            redirect('admin/artikel');
+            return;
         }
+
+        $judul_artikel = $this->input->post('judul_artikel', TRUE);
+        $slug = $this->generate_slug($judul_artikel); // Slug otomatis
 
         $data = [
             'id_artikel' => $id_artikel,
             'judul_artikel' => $this->input->post('judul_artikel', TRUE),
+            'slug' => $slug,
             'thumbnail_artikel' => $thumbnail_artikel,
             'teks' => $this->input->post('text', TRUE),
             'waktu_terbit' => date('Y-m-d'),
@@ -79,11 +99,11 @@ class Artikel extends CI_Controller {
 
         if ($this->artikel_model->insert_artikel($data)) {
             $this->session->set_flashdata('sukses','Sukses menambahkan artikel');
-            redirect('admin/artikel');
         } else {
             $this->session->set_flashdata('gagal','Gagal menambahkan artikel');
-            redirect('admin/artikel');
         }
+
+        redirect('admin/artikel');
     }
 
     public function artikel_editsave() {
@@ -110,7 +130,7 @@ class Artikel extends CI_Controller {
         $thumbnail_artikel = $artikel->thumbnail_artikel;
 
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size'] = 2048;
+        $config['max_size'] = 2048; // 2MB
         $config['upload_path'] = $thumbnail_path;
 
         // Upload Thumbnail (Jika Ada)
@@ -121,22 +141,30 @@ class Artikel extends CI_Controller {
                 if ($thumbnail_artikel && file_exists($thumbnail_path . $thumbnail_artikel)) {
                     unlink($thumbnail_path . $thumbnail_artikel);
                 }
-                
+
                 // Rename file dengan mengganti nama menjadi ID artikel
                 $thumbnail_data = $this->upload->data();
                 $ext = pathinfo($thumbnail_data['file_name'], PATHINFO_EXTENSION);
                 $new_filename = $id_artikel . '.' . $ext;
                 rename($thumbnail_data['full_path'], $thumbnail_path . $new_filename);
-                
+
                 $thumbnail_artikel = $new_filename;
             } else {
-                $this->set_output(['status' => 'error', 'message' => $this->upload->display_errors('', '')]);
+                $error = $this->upload->display_errors('', '');
+                if (strpos(strtolower($error), 'exceeds the maximum allowed size') !== false) {
+                    $error = 'Ukuran file terlalu besar. Maksimal 2MB.';
+                }
+                $this->set_output(['status' => 'error', 'message' => $error]);
                 return;
             }
         }
 
+        $judul_artikel = $this->input->post('judul_artikel', TRUE);
+        $slug = $this->generate_slug($judul_artikel); // Slug otomatis
+
         $data = [
             'judul_artikel' => $judul_artikel,
+            'slug' => $slug,
             'thumbnail_artikel' => $thumbnail_artikel,
             'teks' => $this->input->post('text', TRUE),
             'draft' => $this->input->post('draft', TRUE)
@@ -144,11 +172,11 @@ class Artikel extends CI_Controller {
 
         if ($this->artikel_model->update_artikel($id_artikel, $data)) {
             $this->session->set_flashdata('sukses','Sukses mengubah artikel');
-            redirect('admin/artikel');
         } else {
             $this->session->set_flashdata('gagal','Gagal mengubah artikel');
-            redirect('admin/artikel');
         }
+
+        redirect('admin/artikel');
     }
 
     public function artikel_delete() {

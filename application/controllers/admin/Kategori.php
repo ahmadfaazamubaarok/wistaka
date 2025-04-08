@@ -34,44 +34,51 @@ class Kategori extends CI_Controller {
     }
 
     public function kategori_addsave() {
-        $this->load->library('upload'); // Load library upload
+        $this->load->library('upload');
         header('Content-Type: application/json');
 
         $id_kategori = 'KT' . date('ymdhis');
 
-        // Path untuk masing-masing folder
         $thumbnail_path = './uploads/thumbnail_kategori/';
         $ikon_path = './uploads/ikon_kategori/';
 
-        // Konfigurasi upload
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size']      = 2048; // 2MB
+        $config['max_size'] = 2048;
 
-        // Pastikan folder ada
-        if (!is_dir($thumbnail_path)) {
-            mkdir($thumbnail_path, 0777, true);
-        }
-        if (!is_dir($ikon_path)) {
-            mkdir($ikon_path, 0777, true);
-        }
+        if (!is_dir($thumbnail_path)) mkdir($thumbnail_path, 0777, true);
+        if (!is_dir($ikon_path)) mkdir($ikon_path, 0777, true);
 
         $thumbnail_kategori = '';
         $ikon_kategori = '';
 
-        // Upload thumbnail_kategori
-        $config['upload_path'] = $thumbnail_path;
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload('thumbnail_kategori')) {
-            $thumbnail_data = $this->upload->data();
-            $thumbnail_kategori = $thumbnail_data['file_name'];
+        // ==== Upload Thumbnail ====
+        if (!empty($_FILES['thumbnail_kategori']['name'])) {
+            $config['upload_path'] = $thumbnail_path;
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('thumbnail_kategori')) {
+                $thumbnail_data = $this->upload->data();
+                $thumbnail_kategori = $thumbnail_data['file_name'];
+            } else {
+                $error = $this->upload->display_errors('', '');
+                $this->set_output(['status' => 'error', 'message' => 'Upload thumbnail gagal: ' . $error]);
+                return;
+            }
         }
 
-        // Upload ikon_kategori
-        $config['upload_path'] = $ikon_path;
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload('ikon_kategori')) {
-            $ikon_data = $this->upload->data();
-            $ikon_kategori = $ikon_data['file_name'];
+        // ==== Upload Ikon ====
+        if (!empty($_FILES['ikon_kategori']['name'])) {
+            $config['upload_path'] = $ikon_path;
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('ikon_kategori')) {
+                $ikon_data = $this->upload->data();
+                $ikon_kategori = $ikon_data['file_name'];
+            } else {
+                $error = $this->upload->display_errors('', '');
+                $this->set_output(['status' => 'error', 'message' => 'Upload ikon gagal: ' . $error]);
+                return;
+            }
         }
 
         $data = [
@@ -83,17 +90,10 @@ class Kategori extends CI_Controller {
         ];
 
         if ($this->kategori_model->insert_kategori($data)) {
-            $response = [
-                'status' => 'success',
-                'message' => 'Kategori berhasil ditambahkan!'
-            ];
+            $this->set_output(['status' => 'success', 'message' => 'Kategori berhasil ditambahkan!']);
         } else {
-            $response = [
-                'status' => 'error',
-                'message' => 'Gagal menambahkan kategori.'
-            ];
+            $this->set_output(['status' => 'error', 'message' => 'Gagal menambahkan kategori.']);
         }
-        $this->set_output($response);
     }
 
     public function kategori_editsave() {
@@ -124,12 +124,12 @@ class Kategori extends CI_Controller {
 
         $thumbnail_kategori = $kategori->thumbnail_kategori;
         $ikon_kategori = $kategori->ikon_kategori;
-        $background_unggulan = $kategori->background_unggulan;
+        $background_unggulan_nama = $kategori->background_unggulan;
 
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['max_size'] = 2048;
 
-        // Upload Thumbnail (Jika Ada)
+        // Upload Thumbnail
         if (!empty($_FILES['thumbnail_kategori']['name'])) {
             $config['upload_path'] = $thumbnail_path;
             $this->upload->initialize($config);
@@ -139,12 +139,12 @@ class Kategori extends CI_Controller {
                 }
                 $thumbnail_kategori = $this->upload->data('file_name');
             } else {
-                $this->set_output(['status' => 'error', 'message' => $this->upload->display_errors('', '')]);
+                $this->set_output(['status' => 'error', 'message' => 'Upload thumbnail gagal: ' . $this->upload->display_errors('', '')]);
                 return;
             }
         }
 
-        // Upload Ikon (Jika Ada)
+        // Upload Ikon
         if (!empty($_FILES['ikon_kategori']['name'])) {
             $config['upload_path'] = $ikon_path;
             $this->upload->initialize($config);
@@ -154,26 +154,25 @@ class Kategori extends CI_Controller {
                 }
                 $ikon_kategori = $this->upload->data('file_name');
             } else {
-                $this->set_output(['status' => 'error', 'message' => $this->upload->display_errors('', '')]);
+                $this->set_output(['status' => 'error', 'message' => 'Upload ikon gagal: ' . $this->upload->display_errors('', '')]);
                 return;
             }
         }
 
-        $unggulan = $this->input->post('unggulan') == 'true' ? 'true' : 'false';
-        $background_unggulan = isset($_FILES['background_unggulan']) && is_array($_FILES['background_unggulan']) ? $_FILES['background_unggulan'] : null;
+        $unggulan = $this->input->post('unggulan') === 'true' ? 'true' : 'false';
 
-        // Upload Background Unggulan Jika Ada
-        if ($unggulan === 'true' && $background_unggulan && isset($background_unggulan['name']) && !empty($background_unggulan['name'])) {
+        // Upload Background Unggulan
+        if ($unggulan === 'true' && !empty($_FILES['background_unggulan']['name'])) {
             $config['upload_path'] = $background_unggulan_path;
             $this->upload->initialize($config);
-            
+
             if ($this->upload->do_upload('background_unggulan')) {
-                if (!empty($kategori->background_unggulan) && file_exists($background_unggulan_path . $kategori->background_unggulan)) {
-                    unlink($background_unggulan_path . $kategori->background_unggulan);
+                if (!empty($background_unggulan_nama) && file_exists($background_unggulan_path . $background_unggulan_nama)) {
+                    unlink($background_unggulan_path . $background_unggulan_nama);
                 }
-                $background_unggulan = $this->upload->data('file_name');
+                $background_unggulan_nama = $this->upload->data('file_name');
             } else {
-                $this->set_output(['status' => 'error', 'message' => $this->upload->display_errors('', '')]);
+                $this->set_output(['status' => 'error', 'message' => 'Upload background unggulan gagal: ' . $this->upload->display_errors('', '')]);
                 return;
             }
         }
@@ -183,7 +182,7 @@ class Kategori extends CI_Controller {
             'thumbnail_kategori' => $thumbnail_kategori,
             'ikon_kategori' => $ikon_kategori,
             'unggulan' => $unggulan,
-            'background_unggulan' => $background_unggulan ?? $kategori->background_unggulan
+            'background_unggulan' => $background_unggulan_nama
         ];
 
         if ($this->kategori_model->update_kategori($id_kategori, $data)) {
