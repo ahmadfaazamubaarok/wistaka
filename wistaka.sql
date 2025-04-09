@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Apr 2025 pada 06.34
+-- Waktu pembuatan: 09 Apr 2025 pada 17.30
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -63,7 +63,7 @@ CREATE TABLE `artikel` (
 --
 
 INSERT INTO `artikel` (`id_artikel`, `judul_artikel`, `slug`, `thumbnail_artikel`, `teks`, `waktu_terbit`, `draft`) VALUES
-('AR250408015636', 'hello world', 'hello-world', 'AR250408015636.jpeg', '<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>', '2025-04-08', 'false');
+('AR250408015636', 'Hello world', 'hello-world', 'AR250408015636.jpeg', '<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>', '2025-04-08', 'false');
 
 -- --------------------------------------------------------
 
@@ -113,6 +113,7 @@ INSERT INTO `iklan` (`id_iklan`, `iklan`) VALUES
 CREATE TABLE `kategori` (
   `id_kategori` varchar(20) NOT NULL,
   `nama_kategori` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
   `thumbnail_kategori` varchar(255) NOT NULL,
   `ikon_kategori` varchar(255) NOT NULL,
   `unggulan` enum('true','false') NOT NULL,
@@ -123,8 +124,9 @@ CREATE TABLE `kategori` (
 -- Dumping data untuk tabel `kategori`
 --
 
-INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `thumbnail_kategori`, `ikon_kategori`, `unggulan`, `background_unggulan`) VALUES
-('KT250328092535', 'Budaya', '2.png', '4.png', 'true', '4.png');
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `slug`, `thumbnail_kategori`, `ikon_kategori`, `unggulan`, `background_unggulan`) VALUES
+('KT250328092535', 'Budaya', 'budaya', '2.png', '4.png', 'true', '_09a550aa-5013-44d4-8fdd-e1d61aabc76d.jpeg'),
+('KT250409032642', 'Hutan', 'hutan', '1.png', '1.png', 'false', '1.png');
 
 -- --------------------------------------------------------
 
@@ -137,6 +139,7 @@ CREATE TABLE `wisata` (
   `kategori` varchar(20) NOT NULL,
   `thumbnail_wisata` varchar(255) NOT NULL,
   `nama_wisata` varchar(50) NOT NULL,
+  `slug` varchar(100) NOT NULL,
   `deskripsi_wisata` varchar(255) NOT NULL,
   `jam_buka` text NOT NULL,
   `harga_masuk` text NOT NULL,
@@ -152,8 +155,8 @@ CREATE TABLE `wisata` (
 -- Dumping data untuk tabel `wisata`
 --
 
-INSERT INTO `wisata` (`id_wisata`, `kategori`, `thumbnail_wisata`, `nama_wisata`, `deskripsi_wisata`, `jam_buka`, `harga_masuk`, `parkir`, `fasilitas`, `map`, `alamat`, `publish`, `kontak`) VALUES
-('WS250408123225', 'KT250328092535', 'WS250408123225.png', 'a', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', 'a');
+INSERT INTO `wisata` (`id_wisata`, `kategori`, `thumbnail_wisata`, `nama_wisata`, `slug`, `deskripsi_wisata`, `jam_buka`, `harga_masuk`, `parkir`, `fasilitas`, `map`, `alamat`, `publish`, `kontak`) VALUES
+('WS250408123225', 'KT250328092535', 'WS250408123225.png', 'Lorem Ipsum dolor', 'lorem-ipsum-dolor', '<p>Lorem Ipsum dolor sit amet adalah sebuah teks random yang biasa  dijadikan contoh teks pada design.</p>', '<p>a</p>', '<p>a</p>', '<ol><li xss=removed>Motor : 2.000</li><li xss=removed>Mobil : 4.000</li><li xss=removed>Truk : 10.000</li><li xss=removed>Helikopter : 5.000.000</li><li xss=removed>Pesawat : 10.000.000</li></ol>', '<p><br></p>', 'https://mbuh', 'Lorem Ipsum dolor sit amet adalah sebuah teks random yang biasa  dijadikan contoh teks pada design.', 'true', 'admin');
 
 --
 -- Indexes for dumped tables
