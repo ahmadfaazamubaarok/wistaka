@@ -138,5 +138,7 @@ $autoload['model'] = array(
 		'iklan_model',
 		'kategori_model',
 		'wisata_model',
-		'unggulan_model'
+		'unggulan_model',
+		'auth_model',
+		'admin_model'
 );

@@ -45,6 +45,14 @@
             <span class="hide-menu">Iklan</span>
           </a>
         </li>
+        <?php if ($this->session->userdata('user')->role === 'owner'): ?>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="<?= site_url('admin/admin') ?>">
+                <span><i class="ti ti-layout-dashboard"></i></span>
+                <span class="hide-menu">Admin</span>
+              </a>
+            </li>
+        <?php endif; ?>
       </ul>
     </nav>
   </div>
