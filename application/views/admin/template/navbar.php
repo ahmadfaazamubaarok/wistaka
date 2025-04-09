@@ -7,36 +7,23 @@
           <i class="ti ti-menu-2"></i>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-          <i class="ti ti-bell-ringing"></i>
-          <div class="notification bg-primary rounded-circle"></div>
-        </a>
-      </li>
     </ul>
     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
       <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-        <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
         <li class="nav-item dropdown">
-          <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+          <div class="nav-link nav-icon-hover" id="drop2" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
-          </a>
+            <i class="ti ti-user"></i>
+          </div>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
             <div class="message-body">
-              <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+              <div class="d-flex align-items-center gap-2 dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_profil">
                 <i class="ti ti-user fs-6"></i>
-                <p class="mb-0 fs-3">My Profile</p>
-              </a>
-              <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                <i class="ti ti-mail fs-6"></i>
-                <p class="mb-0 fs-3">My Account</p>
-              </a>
-              <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                <i class="ti ti-list-check fs-6"></i>
-                <p class="mb-0 fs-3">My Task</p>
-              </a>
-              <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                <p class="mb-0 fs-3">Edit Profile</p>
+              </div>
+              <a  href="<?= site_url('auth/logout') ?>" 
+                  onclick="return confirm('Yakin akan logout?');" 
+                  class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
             </div>
           </div>
         </li>
@@ -44,5 +31,59 @@
     </div>
   </nav>
 </header>
+<!-- Modal -->
+<div class="modal fade" id="modal_profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Profil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form_edit_profil">
+        <input type="hidden" name="id_admin" value="<?= $this->session->userdata('user')->id_admin ?>">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" value="<?= $this->session->userdata('user')->username ?>" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="<?= $this->session->userdata('user')->email ?>" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password">
+          <!-- Tambahkan catatan agar password bisa dikosongkan jika tidak ingin diubah -->
+          <small class="text-muted">Kosongkan jika tidak ingin mengubah password.</small>
+        </div>
+        <button type="submit" class="btn btn-success">Simpan</button>
+      </form>
+      <script type="text/javascript">
+        $('#form_edit_profil').on('submit', function(event){
+               event.preventDefault();
+               $.ajax({
+                   url: '<?= site_url('admin/admin/profil_editsave') ?>',
+                   type: 'POST',
+                   data: $(this).serialize(),
+                   dataType: 'json', // Supaya bisa menangkap JSON response
+                   success: function(respon) {
+                       if (respon.status === "success") {
+                           $('#modal_frame').modal('hide');
+                           toastr.success(respon.message, 'Sukses');
+                           $('#karya_table').DataTable().ajax.reload(); // Memperbarui DataTable
+                       } else {
+                           toastr.error(respon.message, 'Gagal');
+                       }
+                   },
+                   error: function(jqXHR, textStatus, errorThrown) {
+                       toastr.error('Terjadi kesalahan, coba lagi.', 'Error');
+                   }
+               });
+            });
+      </script>
+      </div>
+    </div>
+  </div>
+</div>
 <!--  Header End -->
 <div class="container-fluid">

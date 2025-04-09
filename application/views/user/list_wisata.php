@@ -1,7 +1,7 @@
 <?php if (!empty($wisata)): ?>
     <?php foreach ($wisata as $key): ?>
         <div class="col-4 col-md-3">
-			<a href="<?= site_url('welcome/wisata/').$key->nama_wisata ?>">
+			<a href="<?= site_url('welcome/wisata/').$key->slug ?>">
 	        	<div class="card">
 	        		<img src="<?= base_url('uploads/thumbnail_wisata/').$key->thumbnail_wisata ?>" alt="<?= $key->nama_wisata ?>" class="card-img">
 					<div class="card-content">

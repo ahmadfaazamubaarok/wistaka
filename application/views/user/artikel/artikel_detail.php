@@ -225,6 +225,9 @@
 		font-size: 20px;
 	}
 }
+p {
+	line-height: 1.2;
+}
 </style>
 </head>
 
@@ -232,8 +235,8 @@
 	<!-- ***** Header Area Start ***** -->
 	<nav class="navbar navbar-dark custom-navbar">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.html">
-				<img src="<?= base_url('assets/user/')?>images/a.png" alt="Logo" height="40">
+			<a class="navbar-brand" href="<?= site_url('welcome') ?>">
+				<img src="<?= base_url('assets/user/')?>images/logo.png" alt="Logo" height="40">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
 			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -255,6 +258,9 @@
 </header>
 <br><br>
 <div class="container">
+	<h1><?= $artikel->judul_artikel ?></h1>
+	<span><?= $artikel->waktu_terbit ?></span>
+	<br><br>
 	<?= $artikel->teks ?>
 </div>
 <br><br>

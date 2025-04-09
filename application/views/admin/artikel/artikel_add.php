@@ -2,7 +2,7 @@
 <?php $this->load->view('admin/template/sidebar') ?>
 <?php $this->load->view('admin/template/navbar') ?>
 <form action="<?= site_url('admin/artikel/artikel_addsave') ?>" method="POST" enctype="multipart/form-data">
-    <label for="judul_artikel">Nama artikel:</label>
+    <label for="judul_artikel">Judul artikel:</label>
     <input type="text" name="judul_artikel" class="form-control" required>
 
     <label for="thumbnail_artikel">Thumbnail:</label>

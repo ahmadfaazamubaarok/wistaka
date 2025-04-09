@@ -164,7 +164,7 @@
                 <p>Unggulan</p>
                 <!-- From Uiverse.io by Galahhad -->
                 <label class="switch">
-                    <input type="checkbox" id="toggleUnggulan">
+                    <input type="checkbox" id="toggleUnggulan" <?= ($kategori->unggulan === 'true') ? 'checked' : ''; ?>>
                     <div class="slider">
                         <div class="circle">
                             <svg class="cross" xml:space="preserve" style="enable-background:new 0 0 512 512" viewBox="0 0 365.696 365.696" height="6" width="6" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -181,7 +181,7 @@
                     </div>
                 </label>
                 <!-- Input Hidden untuk Menyimpan Status Checkbox -->
-                <input type="hidden" name="unggulan" id="unggulan_hidden" value="false">
+                <input type="hidden" name="unggulan" id="unggulan_hidden" value="<?= ($kategori->unggulan === 'true') ? 'true' : 'false'; ?>">
             </div>
 
             <!-- Input File -->
@@ -210,19 +210,29 @@
     </div>
 </form>
 <script>
-    document.getElementById('toggleUnggulan').addEventListener('change', function() {
+    function updateUnggulanState() {
+        var checkbox = document.getElementById('toggleUnggulan');
         var bgUnggulan = document.getElementById('background_unggulan');
         var inputFile = document.getElementById('background_unggulan_input');
         var unggulanHidden = document.getElementById('unggulan_hidden');
 
-        if (this.checked) {
+        if (checkbox.checked) {
             bgUnggulan.style.display = 'block';
-            inputFile.setAttribute('required', 'required'); // Tambah required
-            unggulanHidden.value = 'true'; // Set value jadi true
+            inputFile.setAttribute('required', 'required');
+            unggulanHidden.value = 'true';
         } else {
             bgUnggulan.style.display = 'none';
-            inputFile.removeAttribute('required'); // Hapus required
-            unggulanHidden.value = 'false'; // Set value jadi false
+            inputFile.removeAttribute('required');
+            unggulanHidden.value = 'false';
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateUnggulanState();
     });
+
+
+    // Jalankan saat toggle berubah
+    document.getElementById('toggleUnggulan').addEventListener('change', updateUnggulanState);
 </script>
+

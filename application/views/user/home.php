@@ -7,7 +7,7 @@
 
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-	<title>Tale SEO Agency CSS Template by TemplateMo website</title>
+	<title>Wistaka | All you can visit</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -224,6 +224,9 @@
 		font-size: 20px;
 	}
 }
+p {
+	line-height: 1.2;
+}
 </style>
 </head>
 <body>
@@ -255,8 +258,8 @@
 	<!-- ***** Header Area Start ***** -->
 	<nav class="navbar navbar-dark custom-navbar">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.html">
-				<img src="<?= base_url('assets/user/')?>images/a.png" alt="Logo" height="40">
+			<a class="navbar-brand" href="<?= site_url('welcome') ?>">
+				<img src="<?= base_url('assets/user/')?>images/logo.png" alt="Logo" height="40">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
 			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -267,16 +270,13 @@
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="<?= site_url('welcome') ?>">Home</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="<?= site_url('artikel') ?>">Artikel</a>
-				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
 <header class="header">
 	<div class="search-container">
-		<input type="text" id="search-wisata" placeholder="Cari sesuatu...">
+		<input type="text" id="search-wisata" placeholder="Cari wisata atau kategori...">
 		<button onclick="search()">Cari</button>
 	</div>
 </header>
@@ -297,7 +297,7 @@
 				<div class="category-container">
 					<!-- Kategori Wisata -->
 					<?php foreach ($kategori as $key): ?>
-					<a href="<?= site_url('welcome/kategori/'.$key->nama_kategori) ?>" class="category-link">
+					<a href="<?= site_url('welcome/kategori/'.$key->slug) ?>" class="category-link">
 						<div class="category-item">
 							<div class="icon rounded-circle">
 								<img src="<?= base_url('uploads/ikon_kategori/'.$key->ikon_kategori) ?>" alt="Hutan">
@@ -323,12 +323,12 @@
 		<div class="owl-carousel card-slider">
 			<?php $wisata = $this->wisata_model->get_wisata_by_kategori($u->id_kategori) ?>
 			<?php foreach ($wisata as $key): ?>
-			<a href="<?= site_url('welcome/wisata/').$key->nama_wisata ?>">
+			<a href="<?= site_url('welcome/wisata/').$key->slug ?>">
 				<div class="item">
 					<img src="<?= base_url('uploads/thumbnail_wisata/').$key->thumbnail_wisata ?>" alt="">
 					<div class="card-content">
 						<h4><?= $key->nama_wisata ?></h4>
-						<p><?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?></p>
+						<?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?>
 					</div>
 				</div>
 			</a>
@@ -391,10 +391,12 @@
 			<div class="col-lg-4">
 				<img src="<?= base_url('assets/user/images/jogja.jpg') ?>" class="img-fluid rounded">
 			</div>
-			<div class="col-lg-8">
-				<h2>Tambahkan wisata baru</h2>
-				<p>Isi formulir deskripsi wisata yang diusulkan kepada admin untuk ditampilkan</p>
-				<a href="<?= site_url('wisata/daftar') ?>" class="btn btn-primary ">Tambahkan wisata</a>
+			<div class="col-lg-8 d-flex align-items-center">
+				<div>
+					<h2>Tambahkan wisata baru</h2>
+					<p>Isi formulir deskripsi wisata yang diusulkan kepada admin untuk ditampilkan</p>
+					<a href="<?= site_url('wisata/daftar') ?>" class="btn btn-primary my-2 rounded-pill px-5 py-2">Tambahkan wisata</a>
+				</div>
 			</div>
 		</div>
 	</div>

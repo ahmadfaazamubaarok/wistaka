@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Detail Wisata</title>
+	<title>Wistaka | Kategori</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
@@ -152,13 +152,16 @@
 	margin-bottom: 6px;
 	color: #333;
 }
+p {
+	line-height: 1.2;
+}
 </style>
 </head>
 <!-- ***** Header Area Start ***** -->
 <nav class="navbar navbar-dark custom-navbar">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="<?= site_url('welcome') ?>">
-			<img src="<?= base_url('assets/user/')?>images/a.png" alt="Logo" height="40">
+			<img src="<?= base_url('assets/user/')?>images/logo.png" alt="Logo" height="40">
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
 		aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -167,7 +170,7 @@
 	<div class="collapse navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="index.html">Home</a>
+				<a class="nav-link active" aria-current="page" href="<?= site_url('welcome') ?>">Home</a>
 			</li>
 		</ul>
 	</div>
@@ -189,7 +192,7 @@
 		<div class="swiper-wrapper">
 			<?php foreach ($wisata as $key): ?>
 			<div class="swiper-slide">
-				<a href="<?= site_url('welcome/wisata/'.$key->nama_wisata) ?>">
+				<a href="<?= site_url('welcome/wisata/'.$key->slug) ?>">
 					<img src="<?= base_url('uploads/thumbnail_wisata/'.$key->thumbnail_wisata) ?>" alt="">
 					<div class="content">
 						<h4><?= $key->nama_wisata ?></h4>

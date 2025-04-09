@@ -2,7 +2,7 @@
 <?php $this->load->view('admin/template/sidebar') ?>
 <?php $this->load->view('admin/template/navbar') ?>
 <div class="container">
-	<div class="card" data-aos="fade-right">
+	<div class="card" data-aos="zoom-out">
 		<div class="card-body">
 			<div class="d-flex justify-content-between mb-3">
 				<div>
@@ -10,7 +10,7 @@
 					<p>Kelola data admin.</p>
 				</div>
 				<div>
-					<a href="javascript:;" class="btn btn-primary btn-admin-add py-3 rounded-pill" data-aos="fade-right" data-aos-delay="100"><i class="ti ti-plus"></i> Tambah admin</a>
+					<a href="javascript:;" class="btn btn-primary btn-admin-add py-3 rounded-pill" data-aos="zoom-out" data-aos-delay="100"><i class="ti ti-plus"></i> Tambah admin</a>
 				</div>
 			</div>
 			<div class="table-responsive">

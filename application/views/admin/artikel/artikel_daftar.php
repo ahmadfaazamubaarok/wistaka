@@ -1,3 +1,9 @@
+<style type="text/css">
+    .preview-teks p {
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+</style>
 <?php foreach ($artikel as $key): ?>
 <?php 
 if ($key->draft === 'false') {
@@ -30,7 +36,7 @@ if ($key->draft === 'false') {
                                         <div class="badge bg-<?= $class ?>"><?= $key->draft ?></div>
                                     </div>
                                 </div>
-                                <p class="text mt-2"><?= mb_strimwidth($key->teks, 0, 100, '...') ?></p>
+                                <div class="preview-teks"><?= strip_tags(substr($key->teks, 0, 100)) . '...'; ?></div>
                             </div>
                         </div>
                     </div>

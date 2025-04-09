@@ -18,6 +18,14 @@ class Kategori extends CI_Controller {
         exit;
     }
 
+    private function generate_slug($string) {
+        $slug = strtolower(trim($string));
+        $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
+        $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
+        $slug = trim($slug, '-');                          // Hapus minus di awal/akhir
+        return $slug;
+    }
+
     public function index(){
         $this->load->view('admin/kategori/kategori_view');
     }
@@ -84,9 +92,13 @@ class Kategori extends CI_Controller {
             }
         }
 
+        $nama_kategori = $this->input->post('nama_kategori', TRUE);
+        $slug = $this->generate_slug($nama_kategori);
+
         $data = [
             'id_kategori' => $id_kategori,
-            'nama_kategori' => $this->input->post('nama_kategori', TRUE),
+            'nama_kategori' => $nama_kategori,
+            'slug' => $slug,
             'thumbnail_kategori' => $thumbnail_kategori,
             'ikon_kategori' => $ikon_kategori,
             'unggulan' => 'false'
@@ -105,6 +117,7 @@ class Kategori extends CI_Controller {
 
         $id_kategori = $this->input->post('id_kategori', TRUE);
         $nama_kategori = $this->input->post('nama_kategori', TRUE);
+        $slug = $this->generate_slug($nama_kategori);
 
         if (!$id_kategori || !$nama_kategori) {
             $this->set_output(['status' => 'error', 'message' => 'ID dan nama kategori harus diisi.']);
@@ -182,6 +195,7 @@ class Kategori extends CI_Controller {
 
         $data = [
             'nama_kategori' => $nama_kategori,
+            'slug' => $slug,
             'thumbnail_kategori' => $thumbnail_kategori,
             'ikon_kategori' => $ikon_kategori,
             'unggulan' => $unggulan,

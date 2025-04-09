@@ -18,6 +18,14 @@ class Wisata extends CI_Controller {
         exit;
     }
 
+    private function generate_slug($string) {
+        $slug = strtolower(trim($string));
+        $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
+        $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
+        $slug = trim($slug, '-');                          // Hapus minus di awal/akhir
+        return $slug;
+    }
+
     public function index(){
         $this->load->view('admin/wisata/wisata_view');
     }
@@ -76,21 +84,24 @@ class Wisata extends CI_Controller {
                 return;
             }
         }
+        $nama_wisata = $this->input->post('nama_wisata', TRUE);
+        $slug = $this->generate_slug($nama_wisata);
 
         $data = [
-            'kontak' => $this->input->post('kontak', TRUE),
-            'id_wisata' => $id_wisata,
-            'kategori' => $this->input->post('kategori', TRUE),
-            'thumbnail_wisata' => $thumbnail_wisata,
-            'nama_wisata' => $this->input->post('nama_wisata', TRUE),
-            'deskripsi_wisata' => $this->input->post('deskripsi_wisata', TRUE),
-            'jam_buka' => $this->input->post('jam_buka', TRUE),
-            'harga_masuk' => $this->input->post('harga_masuk', TRUE),
-            'parkir' => $this->input->post('parkir', TRUE),
-            'fasilitas' => $this->input->post('fasilitas', TRUE),
-            'map' => $this->input->post('map', TRUE),
-            'alamat' => $this->input->post('alamat', TRUE),
-            'publish' => 'true'
+            'kontak'            => $this->input->post('kontak', TRUE),
+            'id_wisata'         => $id_wisata,
+            'kategori'          => $this->input->post('kategori', TRUE),
+            'thumbnail_wisata'  => $thumbnail_wisata,
+            'nama_wisata'       => $nama_wisata,
+            'slug'              => $slug,
+            'deskripsi_wisata'  => $this->input->post('deskripsi_wisata', TRUE),
+            'jam_buka'          => $this->input->post('jam_buka', TRUE),
+            'harga_masuk'       => $this->input->post('harga_masuk', TRUE),
+            'parkir'            => $this->input->post('parkir', TRUE),
+            'fasilitas'         => $this->input->post('fasilitas', TRUE),
+            'map'               => $this->input->post('map', TRUE),
+            'alamat'            => $this->input->post('alamat', TRUE),
+            'publish'           => 'true'
         ];
 
         if ($this->wisata_model->insert_wisata($data)) {
@@ -145,19 +156,23 @@ class Wisata extends CI_Controller {
             }
         }
 
+        $nama_wisata = $this->input->post('nama_wisata', TRUE);
+        $slug = $this->generate_slug($nama_wisata);
+
         $data = [
-            'kontak' => $this->input->post('kontak', TRUE),
-            'kategori' => $this->input->post('kategori', TRUE),
-            'thumbnail_wisata' => $thumbnail_wisata,
-            'nama_wisata' => $this->input->post('nama_wisata', TRUE),
-            'deskripsi_wisata' => $this->input->post('deskripsi_wisata', TRUE),
-            'jam_buka' => $this->input->post('jam_buka', TRUE),
-            'harga_masuk' => $this->input->post('harga_masuk', TRUE),
-            'parkir' => $this->input->post('parkir', TRUE),
-            'fasilitas' => $this->input->post('fasilitas', TRUE),
-            'map' => $this->input->post('map', TRUE),
-            'alamat' => $this->input->post('alamat', TRUE),
-            'publish' => $this->input->post('publish') ? 'true' : 'false',
+            'kontak'            => $this->input->post('kontak', TRUE),
+            'kategori'          => $this->input->post('kategori', TRUE),
+            'thumbnail_wisata'  => $thumbnail_wisata,
+            'nama_wisata'       => $nama_wisata,
+            'slug'              => $slug,
+            'deskripsi_wisata'  => $this->input->post('deskripsi_wisata', TRUE),
+            'jam_buka'          => $this->input->post('jam_buka', TRUE),
+            'harga_masuk'       => $this->input->post('harga_masuk', TRUE),
+            'parkir'            => $this->input->post('parkir', TRUE),
+            'fasilitas'         => $this->input->post('fasilitas', TRUE),
+            'map'               => $this->input->post('map', TRUE),
+            'alamat'            => $this->input->post('alamat', TRUE),
+            'publish'           => $this->input->post('publish') ? 'true' : 'false',
         ];
 
         if ($this->wisata_model->update_wisata($id_wisata, $data)) {

@@ -11,19 +11,22 @@
         color: inherit; /* Warna tetap sama saat hover */
     }
 </style>
-<div class="row">
-	<!-- Button trigger modal -->
-	<a href="<?= site_url('admin/wisata/wisata_add') ?>" type="button" class="btn btn-primary">
-	  Tambah wisata
-	</a>
+<div class="d-flex justify-content-between mb-3">
+    <div data-aos="zoom-out" data-aos-delay="">
+        <h2>Wisata</h2>
+        <p>Kelola data wisata.</p>
+    </div>
+    <div data-aos="zoom-out" data-aos-delay="100">
+        <a href="<?= site_url('admin/wisata/wisata_add') ?>" type="button" class="btn btn-primary"><i class="ti ti-plus"></i> Tambah wisata</a>
+    </div>
 </div>
-<div class="row" id="daftar_wisata"></div>
+<div class="row" id="daftar_wisata" data-aos="zoom-out" data-aos-delay="200"></div>
 <!-- Modal -->
 <div class="modal fade" id="modal_frame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Wisata</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -35,7 +38,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     var daftar_wisata = $('#daftar_wisata');
-    var pesan_loading = '<p class="text-center"><em>Tunggu ya...</em></p>';
+    var pesan_loading = '<p class="text-center"><em>Work in progress...</em></p>';
     var frame = $('#modal_frame');
 
     daftar_wisata.html(pesan_loading);

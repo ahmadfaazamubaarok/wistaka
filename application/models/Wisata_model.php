@@ -30,18 +30,18 @@ class Wisata_model extends CI_Model {
     public function get_wisata_by_kategori($id_kategori) {
         $this->db->select('*');
         $this->db->from('wisata');
-        $this->db->join('kategori','wisata.kategori = kategori.id_kategori','left');
+        // $this->db->join('kategori','wisata.kategori = kategori.id_kategori','left');
         $this->db->where('wisata.kategori', $id_kategori);
         $this->db->where('wisata.publish','true');
         $this->db->order_by('id_wisata', 'DESC');
         return $this->db->get()->result();
     }
 
-    public function get_wisata_by_nama_wisata($nama_wisata) {
+    public function get_wisata_by_slug($slug) {
         $this->db->select('*');
         $this->db->from('wisata');
         $this->db->join('kategori','wisata.kategori = kategori.id_kategori','left');
-        $this->db->where('wisata.nama_wisata', $nama_wisata);
+        $this->db->where('wisata.slug', $slug);
         $this->db->where('wisata.publish','true');
         $this->db->order_by('id_wisata', 'DESC');
         return $this->db->get()->row();

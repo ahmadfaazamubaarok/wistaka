@@ -12,16 +12,16 @@ class Welcome extends CI_Controller {
 		$this->load->view('user/home',$data);
 	}
 
-	public function kategori($nama_kategori)
+	public function kategori($slug)
 	{
-		$data['kategori'] = $this->kategori_model->get_kategori_by_nama_kategori($nama_kategori);
+		$data['kategori'] = $this->kategori_model->get_kategori_by_slug($slug);
 		$data['wisata'] = $this->wisata_model->get_wisata_by_kategori($data['kategori']->id_kategori);
 		$this->load->view('user/kategori',$data);
 	}
 
-	public function wisata($nama_wisata)
+	public function wisata($slug)
 	{
-		$data['wisata'] = $this->wisata_model->get_wisata_by_nama_wisata($nama_wisata);
+		$data['wisata'] = $this->wisata_model->get_wisata_by_slug($slug);
 		$data['wisata_serupa'] = $this->wisata_model->get_wisata_by_kategori($data['wisata']->kategori);
 		$data['galeri'] = $this->galeri_model->get_galeri_by_id_wisata($data['wisata']->id_wisata);
 		$this->load->view('user/wisata',$data);

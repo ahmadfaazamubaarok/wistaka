@@ -9,6 +9,10 @@ class Dashboard extends CI_Controller {
     }
 
     public function index(){
-         $this->load->view('admin/dashboard/dashboard_view');
+        $data['total_wisata'] = $this->wisata_model->count_wisata();
+        $data['total_artikel'] = $this->artikel_model->count_artikel();
+        $data['total_kategori'] = $this->kategori_model->count_kategori();
+        $data['total_iklan'] = $this->iklan_model->count_iklan();
+        $this->load->view('admin/dashboard/dashboard_view',$data);
     }
 }

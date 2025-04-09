@@ -194,4 +194,62 @@ class Admin extends CI_Controller {
             echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus admin']);
         }
     }
+
+    // --------------------------------------------------------------
+    public function profil_editsave()
+    {
+        $id_admin = $this->input->post('id_admin', TRUE);
+        $username = $this->input->post('username', TRUE);
+        $email = $this->input->post('email', TRUE);
+
+        // Cek apakah reset password dicentang
+        $reset_password = $this->input->post('password', FALSE); // Checkbox reset password
+
+        // Jika reset password dicentang, set password ke "admin"
+        if ($reset_password) {
+            $update_data['password'] = password_hash('admin', PASSWORD_DEFAULT);
+        }
+
+        // Validasi wajib
+        if (empty($id_admin) || empty($username) || empty($email)) {
+            $this->set_output(['status' => 'error', 'message' => 'Semua field wajib diisi']);
+            return;
+        }
+
+        // Cek apakah admin ada
+        $admin = $this->admin_model->get_admin_by_id_admin($id_admin);
+        if (!$admin) {
+            $this->set_output(['status' => 'error', 'message' => 'Data admin tidak ditemukan']);
+            return;
+        }
+
+        // Cek username unik (jika berubah)
+        if ($username !== $admin->username) {
+            $cek_user = $this->db->get_where('admin', ['username' => $username])->row();
+            if ($cek_user) {
+                $this->set_output(['status' => 'error', 'message' => 'Username sudah digunakan']);
+                return;
+            }
+        }
+
+        // Cek email unik (jika berubah)
+        if ($email !== $admin->email) {
+            $cek_email = $this->db->get_where('admin', ['email' => $email])->row();
+            if ($cek_email) {
+                $this->set_output(['status' => 'error', 'message' => 'Email sudah digunakan']);
+                return;
+            }
+        }
+
+        // Siapkan data untuk update
+        $update_data = [
+            'username' => $username,
+            'email' => $email,
+        ];
+
+        // Update admin data
+        $this->admin_model->update_admin($id_admin, $update_data);
+
+        $this->set_output(['status' => 'sukses', 'message' => 'Data admin berhasil diperbarui']);
+    }
 }

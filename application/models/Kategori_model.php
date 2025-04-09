@@ -15,8 +15,8 @@ class Kategori_model extends CI_Model {
         return $this->db->get_where($this->table, ['id_kategori' => $id_kategori])->row();
     }
 
-    public function get_kategori_by_nama_kategori($nama_kategori) {
-        return $this->db->get_where($this->table, ['nama_kategori' => $nama_kategori])->row();
+    public function get_kategori_by_slug($slug) {
+        return $this->db->get_where($this->table, ['slug' => $slug])->row();
     }
 
     public function get_kategori_by_unggulan() {

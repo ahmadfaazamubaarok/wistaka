@@ -8,6 +8,9 @@
     a:hover {
         color: inherit; /* Warna tetap sama saat hover */
     }
+    p {
+        line-height: 1.2;
+    }
 </style>
 <?php $this->load->view('admin/template/sidebar') ?>
 <?php $this->load->view('admin/template/navbar') ?>
@@ -20,39 +23,20 @@
         <p><?= $this->session->flashdata('gagal') ?></p>
     </div>
 <?php endif ?>
-<div class="row">
-	<!-- Button trigger modal -->
-	<a href="<?= site_url('admin/artikel/artikel_add') ?>" type="button" class="btn btn-primary">
-	  Tambah artikel
-	</a>
-</div>
-<div id="daftar_artikel" class="row"></div>
-<!-- Modal -->
-<div class="modal fade" id="modal_frame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
+<div class="d-flex justify-content-between mb-3">
+    <div data-aos="zoom-out" data-aos-delay="">
+        <h2>Artikel</h2>
+        <p>Kelola data artikel.</p>
     </div>
-  </div>
+    <div data-aos="zoom-out" data-aos-delay="100">
+    	<a href="<?= site_url('admin/artikel/artikel_add') ?>" type="button" class="btn btn-primary"><i class="ti ti-plus"></i> Tambah artikel</a>
+    </div>
 </div>
-<script type="text/javascript">
-	$(".text").each(function () {
-      let text = $(this).text();
-      if (text.length > 100) {
-        $(this).text(text.substring(0, 100) + "...");
-      }
-    });
-</script>
+<div id="daftar_artikel" class="row" data-aos="zoom-out" data-aos-delay="200"></div>
 <script type="text/javascript">
 $(document).ready(function () {
     var daftar_artikel = $('#daftar_artikel');
-    var pesan_loading = '<p class="text-center"><em>Tunggu ya...</em></p>';
+    var pesan_loading = '<p class="text-center"><em>Work in progress...</em></p>';
     var frame = $('#modal_frame');
 
     daftar_artikel.html(pesan_loading);

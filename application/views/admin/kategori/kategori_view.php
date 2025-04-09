@@ -1,19 +1,22 @@
 <?php $this->load->view('admin/template/head') ?>
 <?php $this->load->view('admin/template/sidebar') ?>
 <?php $this->load->view('admin/template/navbar') ?>
-<div class="row">
-	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary btn-add-kategori">
-	  Tambah Kategori
-	</button>
+<div class="d-flex justify-content-between mb-3">
+    <div data-aos="zoom-out" data-aos-delay="">
+        <h2>Kategori</h2>
+        <p>Kelola data kategori.</p>
+    </div>
+    <div data-aos="zoom-out" data-aos-delay="100">
+        <button class="btn btn-primary btn-add-kategori"><i class="ti ti-plus"></i> Tambah kategori</button>
+    </div>
 </div>
-<div id="daftar_kategori" class="row"></div>
+<div id="daftar_kategori" class="row" data-aos="zoom-out" data-aos-delay="200"></div>
 <!-- Modal -->
 <div class="modal fade" id="modal_frame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Kategori</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -25,7 +28,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     var daftar_kategori = $('#daftar_kategori');
-    var pesan_loading = '<p class="text-center"><em>Tunggu ya...</em></p>';
+    var pesan_loading = '<p class="text-center"><em>Work in progress...</em></p>';
     var frame = $('#modal_frame');
 
     daftar_kategori.html(pesan_loading);
