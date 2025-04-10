@@ -224,10 +224,33 @@ class Kategori extends CI_Controller {
             return;
         }
 
-        // Path lokasi file
+        // Ambil data wisata berdasarkan kategori
+        $wisata = $this->wisata_model->get_wisata_by_kategori($id_kategori);
+        if ($wisata) {
+            foreach ($wisata as $w) {
+                //hapus galeri
+                $galeri = $this->galeri_model->get_galeri_by_wisata($w->id_wisata);
+                foreach ($galeri as $key) {
+                    unlink('./uploads/galeri/' . $key->galeri);
+                    $this->galeri_model->delete_galeri($key->id_galeri);
+                }
+
+                // Path lokasi file
+                $thumbnail_path = './uploads/thumbnail_wisata/' . $w->thumbnail_wisata;
+
+                // Hapus file thumbnail jika ada
+                if ($w->thumbnail_wisata && file_exists($thumbnail_path)) {
+                    unlink($thumbnail_path);
+                }
+                $this->wisata_model->delete_wisata($w->id_wisata);
+            }
+        }
+
+
+        // Path file kategori
         $thumbnail_path = './uploads/thumbnail_kategori/' . $kategori->thumbnail_kategori;
         $ikon_path = './uploads/ikon_kategori/' . $kategori->ikon_kategori;
-        $background_unggulan_path = './uploads/background_unggulan/' . $kategori->background_unggulan_kategori;
+        $background_unggulan_path = './uploads/background_unggulan/' . $kategori->background_unggulan;
 
         // Hapus file thumbnail jika ada
         if ($kategori->thumbnail_kategori && file_exists($thumbnail_path)) {

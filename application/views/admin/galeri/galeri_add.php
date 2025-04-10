@@ -10,7 +10,10 @@
 </div>
 <form id="form-add-galeri" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id_wisata" value="<?= $id_wisata ?>">
+    <div id="previewContainer" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
     <label for="galeri">Gambar galeri:</label>
-    <input type="file" name="galeri[]"class="form-control" multiple>
-    <button type="submit" class="btn btn-primary">Simpan</button>
+    <input type="file" id="imageInput" name="galeri[]"class="form-control" multiple accept="image/*">
+    <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
 </form>

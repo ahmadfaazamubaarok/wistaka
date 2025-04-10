@@ -15,7 +15,7 @@ class Galeri_model extends CI_Model {
         return $this->db->get_where($this->table, ['id_galeri' => $id_galeri])->row();
     }
 
-    public function get_galeri_by_id_wisata($id_wisata) {
+    public function get_galeri_by_wisata($id_wisata) {
         return $this->db->get_where($this->table, ['wisata' => $id_wisata])->result();
     }
 

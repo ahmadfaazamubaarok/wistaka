@@ -255,57 +255,112 @@ p {
 </nav>
 <header class="header">
 </header>
+<!-- ***** Header Area End ***** -->
 <br><br>
 <div class="container">
-	
-<!-- ***** Header Area End ***** -->
-<form action="<?= site_url('wisata/wisata_addsave') ?>" method="POST" enctype="multipart/form-data" class="mb-5">
-    <label>Kontak:</label>
-    <input type="text" name="kontak" class="form-control" required>
+    <h1 class="mb-3">Tambah Wisata</h1>
+    <form action="<?= site_url('wisata/wisata_addsave') ?>" method="POST" enctype="multipart/form-data">
+        <label>Kontak:</label>
+        <input type="text" name="kontak" class="form-control bg-white" required>
 
-    <label>Nama Wisata:</label>
-    <input type="text" name="nama_wisata" class="form-control" required>
+        <label>Nama Wisata:</label>
+        <input type="text" name="nama_wisata" class="form-control bg-white" required>
 
-    <label for="thumbnail_wisata">Thumbnail:</label>
-    <input type="file" name="thumbnail_wisata" id="thumbnail_wisata" class="form-control" required>
-
-    <label for="text">Deskripsi:</label>
-    <textarea required class="form-control editor" name="deskripsi_wisata" id="text"></textarea>
-    <div class="row">
-        <div class="col-md-6">
-            <label for="text">Jam Buka:</label>
-            <textarea required class="form-control editor" name="jam_buka" id="text"></textarea>
+        <label for="thumbnail_wisata">Thumbnail:</label>
+        <input type="file" name="thumbnail_wisata" id="thumbnail_wisata" class="form-control bg-white" required accept="image/*">
+        <div class="invalid-feedback">
+            File harus berupa gambar jpg/png/gif/webp dan maksimal 2 MB.
         </div>
-        <div class="col-md-6">
-            <label for="text">Harga Masuk:</label>
-            <textarea required class="form-control editor" name="harga_masuk" id="text"></textarea>
+        
+        <label for="text">Deskripsi:</label>
+        <textarea required class="form-control editor" name="deskripsi_wisata" id="text"></textarea>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="text">Jam Buka:</label>
+                <textarea required class="form-control editor" name="jam_buka" id="text"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="text">Harga Masuk:</label>
+                <textarea required class="form-control editor" name="harga_masuk" id="text"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="text">Parkir:</label>
+                <textarea required class="form-control editor" name="parkir" id="text"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="text">Fasilitas:</label>
+                <textarea required class="form-control editor" name="fasilitas" id="text"></textarea>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label for="text">Parkir:</label>
-            <textarea required class="form-control editor" name="parkir" id="text"></textarea>
+        <label for="text">Alamat:</label>
+        <textarea required class="form-control bg-white" name="alamat" id="text"></textarea>
+        <label for="map">Link Map:</label>
+        <input type="text" name="map" class="form-control bg-white" required>
+        <label for="kategori">Kategori Wisata:</label>
+        <select name="kategori" class="form-control bg-white" required>
+            <option value="" disabled selected>Pilih kategori</option>
+            <?php foreach ($kategori as $key): ?>
+            <option value="<?= $key->id_kategori ?>"><?= $key->nama_kategori ?></option>
+            <?php endforeach ?>
+        </select>
+	    <label>Galeri foto</label>
+	    <input class="form-control" name="galeri[]" type="file" id="imageInput" multiple accept="image/*">
+	  	<div id="previewContainer" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
         </div>
-        <div class="col-md-6">
-            <label for="text">Fasilitas:</label>
-            <textarea required class="form-control editor" name="fasilitas" id="text"></textarea>
-        </div>
-    </div>
-    <label for="text">Alamat:</label>
-    <textarea required class="form-control" name="alamat" id="text"></textarea>
-    <label for="map">Link Map:</label>
-    <input type="text" name="map" class="form-control" required>
-    <label for="kategori">Kategori Wisata:</label>
-    <select name="kategori" class="form-control" required>
-        <option value="" disabled selected>Pilih kategori</option>
-        <?php foreach ($kategori as $key): ?>
-        <option value="<?= $key->id_kategori ?>"><?= $key->nama_kategori ?></option>
-        <?php endforeach ?>
-    </select>
-    <label>Galeri foto</label>
-    <input class="form-control" name="galeri[]" type="file" id="imageInput" multiple accept="image/*">
-  	<div id="previewContainer" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
-    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
-</form>
+    </form>
 </div>
+<script>
+    $(document).ready(function() {
+        $('.editor').summernote({
+            height: 100,  // Tinggi editor
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('thumbnail_wisata');
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+
+        // Reset custom validity dan border setiap kali berubah
+        this.setCustomValidity('');
+        this.classList.remove('is-invalid');
+
+        if (!file) return;
+
+        if (!validTypes.includes(file.type)) {
+            alert("File harus berupa gambar (jpg, png, gif, webp)!");
+            this.setCustomValidity('File tidak valid.');
+            this.classList.add('is-invalid');
+        } else if (file.size > maxSize) {
+            alert("Ukuran file maksimal 2 MB!");
+            this.setCustomValidity('Ukuran terlalu besar.');
+            this.classList.add('is-invalid');
+        }
+    });
+
+    // Tambahan: validasi ulang saat submit untuk jaga-jaga
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const file = fileInput.files[0];
+        if (!file || fileInput.validationMessage !== '') {
+            e.preventDefault();
+            alert("Periksa kembali file thumbnail sebelum mengirim.");
+        }
+    });
+});
+</script>
 <script>
   const input = document.getElementById('imageInput');
   const preview = document.getElementById('previewContainer');
@@ -334,21 +389,6 @@ p {
     });
   });
 </script>
-
-<script>
-    $(document).ready(function() {
-        $('.editor').summernote({
-            height: 100,  // Tinggi editor
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-    });
-</script>
 <footer class="footer">
 	<div class="social-icons">
 		<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -365,20 +405,6 @@ p {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- Summernote JS -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.editor').summernote({
-            height: 100,  // Tinggi editor
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-    });
-</script>
 </body>
 
 </html>

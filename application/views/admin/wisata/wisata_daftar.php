@@ -17,14 +17,14 @@ if ($key->publish === 'false') {
                          class="img-fluid w-100 h-100" 
                          style="object-fit: cover;">
                 </div>
-                <div class="d-flex justify-content-start align-items-center mt-1">
+                <div class="d-flex justify-content-star mt-1">
                     <img src="<?= base_url('uploads/ikon_kategori/'.$key->ikon_kategori) ?>" 
                          style="border-radius: 20px; height: 40px; width: 40px; margin-right: 10px;">
                     <div>
                         <span class="fs-2"><?= $key->id_wisata ?></span>
-                        
-                        <h5 class="mb-0"><?= $key->nama_wisata ?> <div class="badge bg-<?= $class ?>"><i class="ti ti-check"></i></div></h5>
-                        <span class="fs-2 py-0"><?= $key->nama_kategori ?></span>
+                        <h5 class="mb-0"><?= $key->nama_wisata ?> </h5>
+                        <p class="fs-2 py-0"><?= $key->nama_kategori ?></p>
+                        <p class="badge bg-<?= $class ?>"><?= $key->publish ?><i class="ti ti-check"></i></p>
                     </div>
                 </div>
             </a>

@@ -119,7 +119,7 @@ $(document).ready(function () {
         e.preventDefault();
         let id_kategori = $(this).data("id");
 
-        if (confirm("Apakah Anda yakin ingin menghapus kategori ini?")) {
+        if (confirm("Apakah Anda yakin ingin menghapus kategori dan seluruh data wisata yang terkait?")) {
             $.ajax({
                 url: "<?= site_url('admin/kategori/kategori_delete') ?>",
                 type: "POST",

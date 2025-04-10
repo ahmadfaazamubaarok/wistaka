@@ -7,7 +7,7 @@
         <p>Kelola data iklan.</p>
     </div>
     <div data-aos="zoom-out" data-aos-delay="100">
-        <a href="<?= site_url('admin/iklan/iklan_add') ?>" type="button" class="btn btn-primary"><i class="ti ti-plus"></i> Tambah iklan</a>
+        <button class="btn btn-primary btn-add-iklan"><i class="ti ti-plus"></i> Tambah iklan</button>
     </div>
 </div>
 <div id="daftar_iklan" class="row" data-aos="zoom-out" data-aos-delay="200"></div>

@@ -187,7 +187,7 @@
             <!-- Input File -->
             <div id="background_unggulan" style="display: none;">
                 <label for="background_unggulan_input">Background Unggulan</label>
-                <input type="file" id="background_unggulan_input" name="background_unggulan" class="form-control">
+                <input type="file" id="background_unggulan_input" name="background_unggulan" class="form-control" accept="image/*">
             </div>
         </div>
     </div>
@@ -197,11 +197,11 @@
     <div class="row">
         <div class="col-lg-6">
             <label for="thumbnail_kategori">Thumbnail:</label>
-            <input type="file" name="thumbnail_kategori" id="thumbnail_kategori" class="form-control">
+            <input type="file" name="thumbnail_kategori" id="thumbnail_kategori" class="form-control" accept="image/*">
         </div>
         <div class="col-lg-6">
             <label for="ikon_kategori">Ikon:</label>
-            <input type="file" name="ikon_kategori" id="ikon_kategori" class="form-control">
+            <input type="file" name="ikon_kategori" id="ikon_kategori" class="form-control" accept="image/*">
         </div>
     </div>
     <div class="d-flex justify-content-end mt-3">
@@ -234,5 +234,34 @@
 
     // Jalankan saat toggle berubah
     document.getElementById('toggleUnggulan').addEventListener('change', updateUnggulanState);
+</script>
+<script>
+    document.getElementById('form-edit-kategori').addEventListener('submit', function (e) {
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        const fileInputs = [
+            document.getElementById('thumbnail_kategori'),
+            document.getElementById('ikon_kategori'),
+            document.getElementById('background_unggulan_input')
+        ];
+
+        for (let input of fileInputs) {
+            const file = input?.files[0];
+            if (file) {
+                if (!validTypes.includes(file.type)) {
+                    alert(`File pada "${input.name}" harus berupa gambar (jpg, png, gif, webp)!`);
+                    e.preventDefault();
+                    return;
+                }
+
+                if (file.size > maxSize) {
+                    alert(`Ukuran file pada "${input.name}" maksimal 2 MB!`);
+                    e.preventDefault();
+                    return;
+                }
+            }
+        }
+    });
 </script>
 

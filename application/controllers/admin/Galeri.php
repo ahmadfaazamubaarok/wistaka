@@ -21,7 +21,7 @@ class Galeri extends CI_Controller {
     public function galeri_add($id_wisata)
     {
         $data['id_wisata'] = $id_wisata;
-        $data['galeri'] = $this->galeri_model->get_galeri_by_id_wisata($id_wisata);
+        $data['galeri'] = $this->galeri_model->get_galeri_by_wisata($id_wisata);
         $this->load->view('admin/galeri/galeri_add',$data);
     }
 

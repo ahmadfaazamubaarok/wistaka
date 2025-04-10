@@ -199,6 +199,13 @@ class Wisata extends CI_Controller {
             return;
         }
 
+        //hapus galeri
+        $galeri = $this->galeri_model->get_galeri_by_wisata($id_wisata);
+        foreach ($galeri as $key) {
+            unlink('./uploads/galeri/' . $key->galeri);
+            $this->galeri_model->delete_galeri($key->id_galeri);
+        }
+
         // Path lokasi file
         $thumbnail_path = './uploads/thumbnail_wisata/' . $wisata->thumbnail_wisata;
 
