@@ -8,6 +8,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 	<title>Wistaka | Tambah wisata</title>
+	<link rel="icon" href="<?= base_url('assets/user/images/ikonlogo.png') ?>">
 
 	 <!-- Summernote CSS -->
   	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">

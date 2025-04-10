@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Wisataka | Welcome</title>
+	<link rel="icon" href="<?= base_url('assets/user/images/ikonlogo.png') ?>">
+	
 	<link rel="stylesheet" href="<?= base_url() ?>assets/admin/css/styles.min.css" />
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>

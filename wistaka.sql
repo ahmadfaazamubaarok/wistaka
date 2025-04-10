@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Apr 2025 pada 07.18
+-- Waktu pembuatan: 10 Apr 2025 pada 08.29
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -58,6 +58,13 @@ CREATE TABLE `artikel` (
   `draft` enum('true','false') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `artikel`
+--
+
+INSERT INTO `artikel` (`id_artikel`, `judul_artikel`, `slug`, `thumbnail_artikel`, `teks`, `waktu_terbit`, `draft`) VALUES
+('AR250410075858', 'Hello world', 'hello-world', 'AR250410075858.png', '<p>a</p>', '2025-04-10', 'false');
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +77,13 @@ CREATE TABLE `galeri` (
   `galeri` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `galeri`
+--
+
+INSERT INTO `galeri` (`id_galeri`, `wisata`, `galeri`) VALUES
+('GL67f75e0b3f91b', 'WS250410075825', '9a82df51291e47e7b7179897d8cbbce5.png');
+
 -- --------------------------------------------------------
 
 --
@@ -80,6 +94,13 @@ CREATE TABLE `iklan` (
   `id_iklan` varchar(20) NOT NULL,
   `iklan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `iklan`
+--
+
+INSERT INTO `iklan` (`id_iklan`, `iklan`) VALUES
+('IK250410080114', 'IK250410080114.png');
 
 -- --------------------------------------------------------
 
@@ -96,6 +117,13 @@ CREATE TABLE `kategori` (
   `unggulan` enum('true','false') NOT NULL,
   `background_unggulan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `slug`, `thumbnail_kategori`, `ikon_kategori`, `unggulan`, `background_unggulan`) VALUES
+('KT250410075802', 'Modern', 'modern', 'dkvpplgfinaldesign_for_blackbg.png', 'dkvpplgfinaldesign_for_blackbg.png', 'true', 'dkvpplgfinaldesign_for_blackbg.png');
 
 -- --------------------------------------------------------
 
@@ -119,6 +147,13 @@ CREATE TABLE `wisata` (
   `publish` enum('true','false') NOT NULL,
   `kontak` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `wisata`
+--
+
+INSERT INTO `wisata` (`id_wisata`, `kategori`, `thumbnail_wisata`, `nama_wisata`, `slug`, `deskripsi_wisata`, `jam_buka`, `harga_masuk`, `parkir`, `fasilitas`, `map`, `alamat`, `publish`, `kontak`) VALUES
+('WS250410075825', 'KT250410075802', 'WS250410075825.png', 'Lorem Ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890');
 
 --
 -- Indexes for dumped tables

@@ -13,8 +13,8 @@
     <textarea id="editor" required class="form-control mb-3 bg-white" name="text" id="text" style="min-height: 200px;"></textarea>
 
     <div class="d-flex justify-content-end mt-3">
-        <button type="submit" name="draft" value="true" class="btn btn-secondary mx-3">Draft</button>
-        <button type="submit" name="draft" value="false" class="btn btn-primary">Simpan</button>
+        <button type="submit" name="draft" value="true" class="btn btn-secondary mx-3">Simpan Draft</button>
+        <button type="submit" name="draft" value="false" class="btn btn-primary">Posting</button>
     </div>
 </form>
 <script>

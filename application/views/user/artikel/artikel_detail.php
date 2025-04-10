@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 	<title>Tale SEO Agency CSS Template by TemplateMo website</title>
+	<link rel="icon" href="<?= base_url('assets/user/images/ikonlogo.png') ?>">
 
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
