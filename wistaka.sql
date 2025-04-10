@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Apr 2025 pada 03.31
+-- Waktu pembuatan: 10 Apr 2025 pada 07.18
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -20,6 +20,82 @@ SET time_zone = "+00:00";
 --
 -- Database: `wistaka`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `admin`
+--
+
+CREATE TABLE `admin` (
+  `id_admin` varchar(20) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','owner') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `username`, `email`, `password`, `role`) VALUES
+('AD250409063410', 'admin', 'admin@gmail.com', '$2y$10$H0uCkCyHFDBdne/.RVU05ucN4BipxjrSwEt.JkKixbpc3835/1N3u', 'owner');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `artikel`
+--
+
+CREATE TABLE `artikel` (
+  `id_artikel` varchar(20) NOT NULL,
+  `judul_artikel` varchar(50) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `thumbnail_artikel` varchar(255) NOT NULL,
+  `teks` text NOT NULL,
+  `waktu_terbit` date NOT NULL,
+  `draft` enum('true','false') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `galeri`
+--
+
+CREATE TABLE `galeri` (
+  `id_galeri` varchar(20) NOT NULL,
+  `wisata` varchar(20) NOT NULL,
+  `galeri` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `iklan`
+--
+
+CREATE TABLE `iklan` (
+  `id_iklan` varchar(20) NOT NULL,
+  `iklan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `id_kategori` varchar(20) NOT NULL,
+  `nama_kategori` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
+  `thumbnail_kategori` varchar(255) NOT NULL,
+  `ikon_kategori` varchar(255) NOT NULL,
+  `unggulan` enum('true','false') NOT NULL,
+  `background_unggulan` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -47,6 +123,36 @@ CREATE TABLE `wisata` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id_admin`);
+
+--
+-- Indeks untuk tabel `artikel`
+--
+ALTER TABLE `artikel`
+  ADD PRIMARY KEY (`id_artikel`);
+
+--
+-- Indeks untuk tabel `galeri`
+--
+ALTER TABLE `galeri`
+  ADD PRIMARY KEY (`id_galeri`);
+
+--
+-- Indeks untuk tabel `iklan`
+--
+ALTER TABLE `iklan`
+  ADD PRIMARY KEY (`id_iklan`);
+
+--
+-- Indeks untuk tabel `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
 
 --
 -- Indeks untuk tabel `wisata`
