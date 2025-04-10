@@ -5,6 +5,11 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->view('user/welcome');
+	}
+
+	public function home()
+	{
 		$data['kategori'] = $this->kategori_model->get_kategori();
 		$data['unggulan'] = $this->kategori_model->get_kategori_by_unggulan();
 		$data['artikel'] = $this->artikel_model->get_artikel();

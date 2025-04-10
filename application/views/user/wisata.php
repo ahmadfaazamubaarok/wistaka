@@ -211,7 +211,7 @@
 <!-- ***** Header Area Start ***** -->
 <nav class="navbar navbar-dark bg-dark ">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="<?= site_url('welcome') ?>">
+		<a class="navbar-brand" href="<?= site_url('welcome/home') ?>">
 			<img src="<?= base_url('assets/user/')?>images/logo.png" alt="Logo" height="40">
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

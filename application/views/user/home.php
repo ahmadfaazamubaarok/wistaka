@@ -26,6 +26,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ6v7K6klzgh7kT1J4v0VfZOJ3BCsw2P0p/WeNf9aE/CqZV8l6Z1hG8U5g18" crossorigin="anonymous">
+	  <!-- aos -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>
 		body {
 			background-color: white;
@@ -267,14 +269,14 @@ p {
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="<?= site_url('welcome') ?>">Home</a>
+					<a class="nav-link active" aria-current="page" href="<?= site_url('welcome/home') ?>">Home</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
 <header class="header">
-	<div class="search-container">
+	<div class="search-container" data-aos="zoom-out" data-aos-delay="">
 		<input type="text" id="search-wisata" placeholder="Cari wisata atau kategori...">
 		<button onclick="search()">Cari</button>
 	</div>
@@ -290,10 +292,10 @@ p {
 		<div class="row">
 			<div class="col-12 text-center">
 				<br>
-				<h2 style="color: black; font-size: 20px;">ALL YOU CAN VISIT</h2>
+				<h2 style="color: black; font-size: 20px;" data-aos="zoom-out" data-aos-delay="100">ALL YOU CAN VISIT</h2>
 			</div>
 			<div class="col-12">
-				<div class="category-container">
+				<div class="category-container" data-aos="zoom-out" data-aos-delay="200">
 					<!-- Kategori Wisata -->
 					<?php foreach ($kategori as $key): ?>
 					<a href="<?= site_url('welcome/kategori/'.$key->slug) ?>" class="category-link">
@@ -314,12 +316,12 @@ p {
 <?php foreach ($unggulan as $u): ?>
 <div class="slider-section" style="background: url('<?= base_url('uploads/background_unggulan/'.$u->background_unggulan)?>') no-repeat center center/cover">
 	<div class="slider-overlay"></div>
-	<div class="container">
+	<div class="container" data-aos="zoom-out" data-aos-delay="">
 		<div class="tengah">
 			<h2 class="text-center" style="color: white; font-size: 15px;">DESTINASI WISATA <?= $u->nama_kategori ?></h2>
 			<br>
 		</div>
-		<div class="owl-carousel card-slider">
+		<div class="owl-carousel card-slider" data-aos="zoom-out" data-aos-delay="100">
 			<?php $wisata = $this->wisata_model->get_wisata_by_kategori($u->id_kategori) ?>
 			<?php foreach ($wisata as $key): ?>
 			<a href="<?= site_url('welcome/wisata/').$key->slug ?>">
@@ -341,10 +343,10 @@ p {
 		<div class="row justify-content-center">
 			<div class="col-lg-8"> <!-- Sesuaikan ukuran container -->
 				<div class="section-heading text-center">
-					<h5><em>Rekomendasi</em></h5>
+					<h5 data-aos="zoom-out" data-aos-delay=""><em>Rekomendasi</em></h5>
 					<br>
 				</div>
-				<div class="swiper mySwiper" style="max-width: 400px; height: 200px; margin: auto;">
+				<div class="swiper mySwiper" style="max-width: 400px; height: 200px; margin: auto;" data-aos="zoom-out" data-aos-delay="100">
 					<div class="swiper-wrapper">
 						<?php foreach ($iklan as $key): ?>
 						<div class="swiper-slide">
@@ -364,10 +366,10 @@ p {
 	<div class="slider-overlay"></div>
 	<div class="container">
 		<div class="tengah">
-			<h2 class="text-center">Artikel</h2>
+			<h2 class="text-center" data-aos="zoom-out" data-aos-delay="">Artikel</h2>
 			<br>
 		</div>
-		<div class="owl-carousel card-slider">
+		<div class="owl-carousel card-slider" data-aos="zoom-out" data-aos-delay="100">
 			<?php foreach ($artikel as $key): ?>
 			<a href="<?= site_url('artikel/artikel_detail/').$key->slug ?>">
 				<div class="item">
@@ -384,7 +386,7 @@ p {
 <br>
 <br>
 <br>
-<div class="card m-3">
+<div class="card m-3" data-aos="zoom-out" data-aos-delay="">
 	<div class="card-body">
 		<div class="row">
 			<div class="col-lg-4">
@@ -408,7 +410,9 @@ p {
 		<a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
 		<a href="mailto:example@email.com"><i class="fas fa-envelope"></i></a>
 	</div>
-	<div class="email">&copy; Wistaka Yogyakarta © 2025</div>
+	<a href="<?= site_url('auth') ?>">
+		<div class="email">&copy; Wistaka Yogyakarta © 2025</div>
+	</a>
 </footer>
 
 
@@ -419,6 +423,11 @@ p {
 <script src="assets/js/popup.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<!-- aos -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 <script>
 	var swiper = new Swiper(".mySwiper", {
 		slidesPerView: 1,
