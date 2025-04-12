@@ -28,7 +28,7 @@ class Welcome extends CI_Controller {
 	{
 		$data['wisata'] = $this->wisata_model->get_wisata_by_slug($slug);
 		$data['wisata_serupa'] = $this->wisata_model->get_wisata_by_kategori($data['wisata']->kategori);
-		$data['galeri'] = $this->galeri_model->get_galeri_by_id_wisata($data['wisata']->id_wisata);
+		$data['galeri'] = $this->galeri_model->get_galeri_by_wisata($data['wisata']->id_wisata);
 		$this->load->view('user/wisata',$data);
 	}
 }

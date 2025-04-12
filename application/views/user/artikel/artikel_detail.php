@@ -246,10 +246,7 @@ p {
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="<?= site_url('welcome') ?>">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="<?= site_url('artikel') ?>">Artikel</a>
+					<a class="nav-link active" aria-current="page" href="<?= site_url('welcome/home') ?>">Home</a>
 				</li>
 			</ul>
 		</div>
