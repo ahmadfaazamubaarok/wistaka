@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Apr 2025 pada 08.29
+-- Waktu pembuatan: 12 Apr 2025 pada 05.56
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -82,7 +82,7 @@ CREATE TABLE `galeri` (
 --
 
 INSERT INTO `galeri` (`id_galeri`, `wisata`, `galeri`) VALUES
-('GL67f75e0b3f91b', 'WS250410075825', '9a82df51291e47e7b7179897d8cbbce5.png');
+('GL67f9e1b150c06', 'WS250412054437', 'af5ee8dcf88abcc400d9289a5665281a.png');
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,8 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `slug`, `thumbnail_kategori`, `ikon_kategori`, `unggulan`, `background_unggulan`) VALUES
-('KT250410075802', 'Modern', 'modern', 'dkvpplgfinaldesign_for_blackbg.png', 'dkvpplgfinaldesign_for_blackbg.png', 'true', 'dkvpplgfinaldesign_for_blackbg.png');
+('KT250412054413', 'Modern', 'modern', 'dkvpplgfinaldesign_for_blackbg.png', 'dkvpplgfinaldesign_for_blackbg.png', 'true', 'dkvpplgfinaldesign_for_blackbg.png'),
+('KT250412055253', 'Budaya', 'budaya', '2.png', '2.png', 'true', '2.png');
 
 -- --------------------------------------------------------
 
@@ -153,7 +154,10 @@ CREATE TABLE `wisata` (
 --
 
 INSERT INTO `wisata` (`id_wisata`, `kategori`, `thumbnail_wisata`, `nama_wisata`, `slug`, `deskripsi_wisata`, `jam_buka`, `harga_masuk`, `parkir`, `fasilitas`, `map`, `alamat`, `publish`, `kontak`) VALUES
-('WS250410075825', 'KT250410075802', 'WS250410075825.png', 'Lorem Ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890');
+('WS250412054437', 'KT250412054413', 'WS250412054437.png', 'Lorem Ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
+('WS250412055136', 'KT250412054413', 'WS250412055136.png', 'Lorem Ipsum dolor sit ameta', 'lorem-ipsum-dolor-sit-ameta', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
+('WS250412055317', 'KT250412055253', 'WS250412055317.jpeg', 'Lorem Ipsum dolor', 'lorem-ipsum-dolor', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
+('WS250412055455', 'KT250412055253', 'WS250412055455.png', 'Lorem Ipsum', 'lorem-ipsum', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890');
 
 --
 -- Indexes for dumped tables
