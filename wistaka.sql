@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Apr 2025 pada 05.56
+-- Waktu pembuatan: 29 Apr 2025 pada 05.44
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -58,12 +58,30 @@ CREATE TABLE `artikel` (
   `draft` enum('true','false') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data untuk tabel `artikel`
+-- Struktur dari tabel `event`
 --
 
-INSERT INTO `artikel` (`id_artikel`, `judul_artikel`, `slug`, `thumbnail_artikel`, `teks`, `waktu_terbit`, `draft`) VALUES
-('AR250410075858', 'Hello world', 'hello-world', 'AR250410075858.png', '<p>a</p>', '2025-04-10', 'false');
+CREATE TABLE `event` (
+  `id_event` varchar(20) NOT NULL,
+  `nama_event` varchar(50) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `thumbnail_event` varchar(255) NOT NULL,
+  `waktu_mulai` date NOT NULL,
+  `waktu_selesai` date NOT NULL,
+  `teks` text NOT NULL,
+  `publish` enum('false','true') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `event`
+--
+
+INSERT INTO `event` (`id_event`, `nama_event`, `slug`, `thumbnail_event`, `waktu_mulai`, `waktu_selesai`, `teks`, `publish`) VALUES
+('AR250429053422', 'nama event', 'nama-event', 'AR250429053422.png', '2025-04-28', '2025-05-01', 'a', 'false'),
+('AR250429053517', 'nama event', 'nama-event', 'AR250429053517.png', '2025-04-28', '2025-05-01', '<p>a</p>', 'false');
 
 -- --------------------------------------------------------
 
@@ -82,7 +100,8 @@ CREATE TABLE `galeri` (
 --
 
 INSERT INTO `galeri` (`id_galeri`, `wisata`, `galeri`) VALUES
-('GL67f9e1b150c06', 'WS250412054437', 'af5ee8dcf88abcc400d9289a5665281a.png');
+('6810475e68f7a', 'WS250429052830', 'aa6294976739aa2d8c079c0185b44f82.png'),
+('68104ab624763', 'WS250429054246', '49d0d252e13ceaff22dbab53dacfe205.png');
 
 -- --------------------------------------------------------
 
@@ -94,13 +113,6 @@ CREATE TABLE `iklan` (
   `id_iklan` varchar(20) NOT NULL,
   `iklan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `iklan`
---
-
-INSERT INTO `iklan` (`id_iklan`, `iklan`) VALUES
-('IK250410080114', 'IK250410080114.png');
 
 -- --------------------------------------------------------
 
@@ -123,8 +135,33 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `slug`, `thumbnail_kategori`, `ikon_kategori`, `unggulan`, `background_unggulan`) VALUES
-('KT250412054413', 'Modern', 'modern', 'dkvpplgfinaldesign_for_blackbg.png', 'dkvpplgfinaldesign_for_blackbg.png', 'true', 'dkvpplgfinaldesign_for_blackbg.png'),
-('KT250412055253', 'Budaya', 'budaya', '2.png', '2.png', 'true', '2.png');
+('KT250429052807', 'Modern', 'modern', 'selesai.png', 'selesai.png', 'false', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `user`
+--
+
+CREATE TABLE `user` (
+  `id_user` varchar(20) NOT NULL,
+  `login_oauth_uid` varchar(100) NOT NULL,
+  `first_name` varchar(250) NOT NULL,
+  `last_name` varchar(250) DEFAULT NULL,
+  `email_address` varchar(250) NOT NULL,
+  `profile_picture` varchar(250) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `update_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `user`
+--
+
+INSERT INTO `user` (`id_user`, `login_oauth_uid`, `first_name`, `last_name`, `email_address`, `profile_picture`, `created_at`, `update_at`) VALUES
+('US250423060344', '114800119881998925405', 'Faazamu', 'Barok', 'ahmadfaazamubaarok26@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocLAoEW7adX4Kj6usdtTDC1_gOTIqE1m4U-qWtECqVKyvJ7xkP5x=s96-c', '2025-04-23 06:03:44', '2025-04-28 04:44:50'),
+('US250428042551', '117796192336657668878', 'faazamuartwork', NULL, 'faazamuartwork@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocJDXM2mOTcW6XcXwLcIfgElTXsIpgTfbar-JK5SCHdZOeb1=s96-c', '2025-04-28 04:25:51', '2025-04-29 05:42:13'),
+('US250429045723', '110452005866958359241', 'Wistaka', NULL, 'wistakatrip@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocLj439XwxkIt8RpwohPHRyIGIJf5sxfg9AJDtKJLZNw2kS-Xw=s96-c', '2025-04-29 04:57:23', '2025-04-29 05:41:52');
 
 -- --------------------------------------------------------
 
@@ -154,10 +191,9 @@ CREATE TABLE `wisata` (
 --
 
 INSERT INTO `wisata` (`id_wisata`, `kategori`, `thumbnail_wisata`, `nama_wisata`, `slug`, `deskripsi_wisata`, `jam_buka`, `harga_masuk`, `parkir`, `fasilitas`, `map`, `alamat`, `publish`, `kontak`) VALUES
-('WS250412054437', 'KT250412054413', 'WS250412054437.png', 'Lorem Ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
-('WS250412055136', 'KT250412054413', 'WS250412055136.png', 'Lorem Ipsum dolor sit ameta', 'lorem-ipsum-dolor-sit-ameta', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
-('WS250412055317', 'KT250412055253', 'WS250412055317.jpeg', 'Lorem Ipsum dolor', 'lorem-ipsum-dolor', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890'),
-('WS250412055455', 'KT250412055253', 'WS250412055455.png', 'Lorem Ipsum', 'lorem-ipsum', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '1234567890');
+('WS250429052830', 'KT250429052807', 'WS250429052830.png', 'Nama Wisata', '', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'false', 'faazamuartwork@gmail.com'),
+('WS250429053455', 'KT250429052807', 'WS250429053455.png', 'Nama Wisata', 'nama-wisata', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'true', '085869026062'),
+('WS250429054246', 'KT250429052807', 'WS250429054246.png', 'Nama Wisata', '', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', '<p>a</p>', 'a', 'a', 'false', 'faazamuartwork@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -176,6 +212,12 @@ ALTER TABLE `artikel`
   ADD PRIMARY KEY (`id_artikel`);
 
 --
+-- Indeks untuk tabel `event`
+--
+ALTER TABLE `event`
+  ADD PRIMARY KEY (`id_event`);
+
+--
 -- Indeks untuk tabel `galeri`
 --
 ALTER TABLE `galeri`
@@ -192,6 +234,12 @@ ALTER TABLE `iklan`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indeks untuk tabel `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- Indeks untuk tabel `wisata`

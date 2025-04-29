@@ -140,5 +140,7 @@ $autoload['model'] = array(
 		'wisata_model',
 		'unggulan_model',
 		'auth_model',
-		'admin_model'
+		'admin_model',
+		'event_model',
+		'google_login_model'
 );

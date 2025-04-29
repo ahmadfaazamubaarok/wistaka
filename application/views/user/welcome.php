@@ -27,10 +27,12 @@
 	<div class="vh-100 d-flex justify-content-center" style="background: linear-gradient(to bottom, #000000, #08332c);">
 		<div class="d-flex justify-content-center flex-column text-center">
 			<img src="<?= base_url('assets/user/images/logo.png') ?>" style="width: 200px;" data-aos="zoom-out" data-aos-delay="">
-			<img src="<?= base_url('assets/user/images/welcome.png') ?>" style="width: 200px;" data-aos="zoom-out" data-aos-delay="100">
-			<div data-aos="zoom-out" data-aos-delay="200">
-				<a href="<?= site_url('welcome/home') ?>" class="btn btn-warning rounded-pill py-2 btn-glow px-3 w-100">Monggo</a>
-				<p class="text-white text-center mt-4">www.wistakatrip.com</p>
+			<div data-aos="zoom-out">
+				<img src="<?= base_url('assets/user/images/welcome.png') ?>" style="width: 200px;" data-aos-delay="100">
+				<div data-aos-delay="200">
+					<a href="<?= site_url('welcome/home') ?>" class="btn btn-warning rounded-pill py-2 btn-glow px-3 w-100">Monggo</a>
+					<p class="text-white text-center mt-4">www.wistakatrip.com</p>
+				</div>
 			</div>
 		</div>
 	</div>

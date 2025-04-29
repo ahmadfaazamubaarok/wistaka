@@ -1,9 +1,10 @@
 <?php
 class Iklan extends CI_Controller {
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -18,20 +19,24 @@ class Iklan extends CI_Controller {
         exit;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->load->view('admin/iklan/iklan_view');
     }
 
-    public function iklan_daftar(){
+    public function iklan_daftar()
+    {
         $data['iklan'] = $this->iklan_model->get_iklan();
         $this->load->view('admin/iklan/iklan_daftar',$data);
     }
 
-    public function iklan_add(){
+    public function iklan_add()
+    {
         $this->load->view('admin/iklan/iklan_add');
     }
 
-    public function iklan_addsave() {
+    public function iklan_addsave() 
+    {
         $this->load->library('upload'); // Load library upload
         header('Content-Type: application/json');
 
@@ -84,7 +89,8 @@ class Iklan extends CI_Controller {
         $this->set_output($response);
     }
 
-    public function iklan_delete() {
+    public function iklan_delete() 
+    {
         $id_iklan = $this->input->post('id_iklan', TRUE);
 
         if (!$id_iklan) {

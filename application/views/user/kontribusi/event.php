@@ -7,8 +7,11 @@
 
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-	<title>Wistaka | All you can visit</title>
+	<title>Wistaka | Tambah event</title>
 	<link rel="icon" href="<?= base_url('assets/user/images/ikonlogo.png') ?>">
+
+	 <!-- Summernote CSS -->
+  	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -27,8 +30,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ6v7K6klzgh7kT1J4v0VfZOJ3BCsw2P0p/WeNf9aE/CqZV8l6Z1hG8U5g18" crossorigin="anonymous">
-	  <!-- aos -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>
 		body {
 			background-color: white;
@@ -232,11 +233,12 @@ p {
 }
 </style>
 </head>
+
 <body>
 	<!-- ***** Header Area Start ***** -->
 	<nav class="navbar navbar-dark custom-navbar">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="<?= site_url('welcome') ?>">
+			<a class="navbar-brand" href="<?= site_url('welcome/home') ?>">
 				<img src="<?= base_url('assets/user/')?>images/logo.png" alt="Logo" height="40">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -253,133 +255,116 @@ p {
 	</div>
 </nav>
 <header class="header">
-	<div class="search-container" data-aos="zoom-out" data-aos-delay="">
-		<input type="text" id="search-wisata" placeholder="Cari wisata atau kategori...">
-		<button onclick="search()">Cari</button>
-	</div>
 </header>
-<br><br>
-	<div class="container">
-		<div id="result-search-wisata" class="row justify-content-center"></div>
-	</div>
-
 <!-- ***** Header Area End ***** -->
-<div class="services section" id="services">
-	<div class="container">
-		<div class="row">
-			<div class="col-12 text-center">
-				<br>
-				<h2 style="color: black; font-size: 20px;" data-aos="zoom-out" data-aos-delay="100">ALL YOU CAN VISIT</h2>
-			</div>
-			<div class="col-12">
-				<div class="category-container" data-aos="zoom-out" data-aos-delay="200">
-					<!-- Kategori Wisata -->
-					<?php foreach ($kategori as $key): ?>
-					<a href="<?= site_url('welcome/kategori/'.$key->slug) ?>" class="category-link">
-						<div class="category-item">
-							<div class="icon rounded-circle">
-								<img src="<?= base_url('uploads/ikon_kategori/'.$key->ikon_kategori) ?>" alt="Hutan">
-							</div>
-							<h4 class="category-title"><?= $key->nama_kategori ?></h4>
-						</div>
-					</a>
-					<?php endforeach ?>
-				</div>
-			</div>
-		</div>
-	</div>
+<br><br>
+<div class="container">
+	<h1 class="mb-3">Tambah Event</h1>
+	<form action="<?= site_url('kontribusi/event_addsave') ?>" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="email" value="<?= $this->session->userdata('user')['email_address'] ?>">
+	    <label for="judul_event">Nama event:</label>
+	    <input type="text" name="nama_event" class="form-control mb-3 bg-white" required>
+	
+	    <label for="thumbnail_event">Thumbnail:</label>
+	    <input type="file" name="thumbnail_event" id="thumbnail_event" class="form-control mb-3 bg-white" accept="image/*"  required>
+	
+	    <div class="row">
+	        <div class="col-md-6">
+	            <label for="waktu_mulai">Waktu mulai</label>
+	            <input type="date" name="waktu_mulai" id="waktu_mulai" class="form-control mb-3 bg-white">
+	        </div>
+	        <div class="col-md-6">
+	            <label for="waktu_selesai">Waktu selesai</label>
+	            <input type="date" name="waktu_selesai" id="waktu_selesai" class="form-control mb-3 bg-white">
+	        </div>
+	    </div>
+	
+	    <label for="text">Event:</label>
+	    <textarea id="editor" required class="form-control mb-3 bg-white" name="text" id="text" style="min-height: 200px;"></textarea>
+	
+	    <div class="d-flex justify-content-end mt-3">
+	        <button type="submit" class="btn btn-primary">Tambah</button>
+	    </div>
+	</form>
 </div>
-<br>
-<?php foreach ($unggulan as $u): ?>
-<div class="slider-section" style="background: url('<?= base_url('uploads/background_unggulan/'.$u->background_unggulan)?>') no-repeat center center/cover">
-	<div class="slider-overlay"></div>
-	<div class="container" data-aos="zoom-out" data-aos-delay="">
-		<div class="tengah">
-			<h2 class="text-center" style="color: white; font-size: 15px;">DESTINASI WISATA <?= $u->nama_kategori ?></h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider" data-aos="zoom-out" data-aos-delay="100">
-			<?php $wisata = $this->wisata_model->get_wisata_by_kategori($u->id_kategori) ?>
-			<?php foreach ($wisata as $key): ?>
-			<a href="<?= site_url('welcome/wisata/').$key->slug ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_wisata/').$key->thumbnail_wisata ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->nama_wisata ?></h4>
-						<?php echo (strlen($key->deskripsi_wisata) > 20) ? substr($key->deskripsi_wisata, 0, 20) . "..." : $key->deskripsi_wisata; ?>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<div class="projects section" id="projects">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-8"> <!-- Sesuaikan ukuran container -->
-				<div class="section-heading text-center">
-					<h5 data-aos="zoom-out" data-aos-delay=""><em>Rekomendasi</em></h5>
-					<br>
-				</div>
-				<div class="swiper mySwiper" style="max-width: 400px; height: 200px; margin: auto;" data-aos="zoom-out" data-aos-delay="100">
-					<div class="swiper-wrapper">
-						<?php foreach ($iklan as $key): ?>
-						<div class="swiper-slide">
-							<img src="<?= base_url('uploads/iklan/'.$key->iklan) ?>" style="width: 100%; height: 100%; object-fit: cover;">
-						</div>
-						<?php endforeach ?>
-					</div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		</div> 
-	</div>
-</div>
-<br>
-<?php endforeach ?>
-<div class="slider-section">
-	<div class="slider-overlay"></div>
-	<div class="container">
-		<div class="tengah">
-			<h2 class="text-center" data-aos="zoom-out" data-aos-delay="">Artikel</h2>
-			<br>
-		</div>
-		<div class="owl-carousel card-slider" data-aos="zoom-out" data-aos-delay="100">
-			<?php foreach ($artikel as $key): ?>
-			<a href="<?= site_url('artikel/artikel_detail/').$key->slug ?>">
-				<div class="item">
-					<img src="<?= base_url('uploads/thumbnail_artikel/').$key->thumbnail_artikel ?>" alt="">
-					<div class="card-content">
-						<h4><?= $key->judul_artikel ?></h4>
-					</div>
-				</div>
-			</a>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
-<div class="card m-3" data-aos="zoom-out" data-aos-delay="">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-lg-4">
-				<img src="<?= base_url('assets/user/images/jogja.jpg') ?>" class="img-fluid rounded">
-			</div>
-			<div class="col-lg-8 d-flex align-items-center">
-				<div>
-					<h2>Tambahkan wisata baru</h2>
-					<p>Isi formulir deskripsi wisata yang diusulkan kepada admin untuk ditampilkan</p>
-					<a href="<?= site_url('auth/login_user') ?>" class="btn btn-primary my-2 rounded-pill px-5 py-2">Tambahkan wisata</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('.editor').summernote({
+            height: 100,  // Tinggi editor
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('thumbnail_event');
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+
+        // Reset custom validity dan border setiap kali berubah
+        this.setCustomValidity('');
+        this.classList.remove('is-invalid');
+
+        if (!file) return;
+
+        if (!validTypes.includes(file.type)) {
+            alert("File harus berupa gambar (jpg, png, gif, webp)!");
+            this.setCustomValidity('File tidak valid.');
+            this.classList.add('is-invalid');
+        } else if (file.size > maxSize) {
+            alert("Ukuran file maksimal 2 MB!");
+            this.setCustomValidity('Ukuran terlalu besar.');
+            this.classList.add('is-invalid');
+        }
+    });
+
+    // Tambahan: validasi ulang saat submit untuk jaga-jaga
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const file = fileInput.files[0];
+        if (!file || fileInput.validationMessage !== '') {
+            e.preventDefault();
+            alert("Periksa kembali file thumbnail sebelum mengirim.");
+        }
+    });
+});
+</script>
+<script>
+  const input = document.getElementById('imageInput');
+  const preview = document.getElementById('previewContainer');
+
+  input.addEventListener('change', function () {
+    preview.innerHTML = ''; // Kosongkan preview dulu
+
+    const files = Array.from(this.files);
+
+    files.forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '120px';
+        img.style.maxHeight = '120px';
+        img.style.border = '1px solid #ccc';
+        img.style.borderRadius = '8px';
+        img.style.objectFit = 'cover';
+        preview.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  });
+</script>
 <footer class="footer">
 	<div class="social-icons">
 		<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -387,77 +372,15 @@ p {
 		<a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
 		<a href="mailto:example@email.com"><i class="fas fa-envelope"></i></a>
 	</div>
-	<a href="<?= site_url('auth') ?>">
-		<div class="email">&copy; Wistaka Yogyakarta © 2025</div>
-	</a>
+	<div class="email">&copy; Wistaka Yogyakarta © 2025</div>
 </footer>
 
 
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="assets/js/tabs.js"></script>
-<script src="assets/js/popup.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<!-- aos -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init();
-</script>
-<script>
-	var swiper = new Swiper(".mySwiper", {
-		slidesPerView: 1,
-		spaceBetween: 10,
-		loop: true,
-		autoplay: {
-			delay: 2500,
-			disableOnInteraction: false,
-		},
-		pagination: {
-			el: ".swiper-pagination",
-			clickable: true,
-		},
-	});
-</script>
-<!-- card -->
-<script>
-	$(document).ready(function(){
-		$(".card-slider").owlCarousel({
-			loop: true,
-			margin: 5,
-			nav: false,
-			autoplay: true,
-			autoplayTimeout: 2500,
-			autoplayHoverPause: true,
-			responsive: {
-				0: { items: 3 }, /* 3 Card di layar kecil */
-				480: { items: 3 }, /* Tetap 3 Card */
-				768: { items: 4 }, /* 4 Card di tablet */
-				1024: { items: 5 }  /* 5 Card di desktop */
-			}
-		});
-	});
-</script>
-<!-- script untuk search -->
-<script>
-  $('#search-wisata').on('keyup', function () {
-    var keyword = $(this).val();
-    if (keyword.length >= 2) {
-      $.ajax({
-        url: "<?= site_url('wisata/search'); ?>",
-        method: "POST",
-        data: { search: keyword },
-        success: function (response) {
-          $('#result-search-wisata').html(response); // tampilkan HTML view
-        }
-      });
-    } else {
-      $('#result-search-wisata').html('');
-    }
-  });
-</script>
-
+<!-- Summernote JS -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </body>
 
 </html>

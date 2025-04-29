@@ -3,8 +3,8 @@
 <?php $this->load->view('admin/template/navbar') ?>
 <div class="card rounded" data-aos="zoom-out" data-aos-delay="" style="height: 30vh; background-size: cover; background-image: url('<?= base_url('assets/user/images/jogja.jpg') ?>');">
 	<div class="card-body">
-		<h1 class="text-white mt-3 fw-bolder mb-0">Selamat datang <?= $this->session->userdata('user')->username ?>!</h1>
-		<p class="text-white mt-3 fw-bolder mb-0">Anda login sebagai <?= $this->session->userdata('user')->role ?>, Kelola data website Wistaka</p>
+		<h1 class="text-white mt-3 fw-bolder mb-0">Selamat datang <?= $this->session->userdata('admin')->username ?>!</h1>
+		<p class="text-white mt-3 fw-bolder mb-0">Anda login sebagai <?= $this->session->userdata('admin')->role ?>, Kelola data website Wistaka</p>
 	</div>
 </div>
 <div class="row mt-3">

@@ -1,9 +1,10 @@
 <?php
 class Kategori extends CI_Controller {
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -18,7 +19,8 @@ class Kategori extends CI_Controller {
         exit;
     }
 
-    private function generate_slug($string) {
+    private function generate_slug($string) 
+    {
         $slug = strtolower(trim($string));
         $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
         $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
@@ -26,25 +28,30 @@ class Kategori extends CI_Controller {
         return $slug;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->load->view('admin/kategori/kategori_view');
     }
 
-    public function kategori_daftar(){
+    public function kategori_daftar()
+    {
         $data['kategori'] = $this->kategori_model->get_kategori();
         $this->load->view('admin/kategori/kategori_daftar',$data);
     }
 
-    public function kategori_add(){
+    public function kategori_add()
+    {
         $this->load->view('admin/kategori/kategori_add');
     }
 
-    public function kategori_edit($id_kategori){
+    public function kategori_edit($id_kategori)
+    {
         $data['kategori'] = $this->kategori_model->get_kategori_by_id_kategori($id_kategori);
         $this->load->view('admin/kategori/kategori_edit',$data);
     }
 
-    public function kategori_addsave() {
+    public function kategori_addsave() 
+    {
         $this->load->library('upload');
         header('Content-Type: application/json');
 
@@ -111,7 +118,8 @@ class Kategori extends CI_Controller {
         }
     }
 
-    public function kategori_editsave() {
+    public function kategori_editsave() 
+    {
         $this->load->library('upload');
         header('Content-Type: application/json');
 
@@ -209,7 +217,8 @@ class Kategori extends CI_Controller {
         }
     }
 
-    public function kategori_delete() {
+    public function kategori_delete() 
+    {
         $id_kategori = $this->input->post('id_kategori', TRUE);
 
         if (!$id_kategori) {

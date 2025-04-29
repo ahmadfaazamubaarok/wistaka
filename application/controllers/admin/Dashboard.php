@@ -1,14 +1,16 @@
 <?php
 class Dashboard extends CI_Controller {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
 
-    public function index(){
+    public function index()
+    {
         $data['total_wisata'] = $this->wisata_model->count_wisata();
         $data['total_artikel'] = $this->artikel_model->count_artikel();
         $data['total_kategori'] = $this->kategori_model->count_kategori();

@@ -1,9 +1,10 @@
 <?php
 class Galeri extends CI_Controller {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -25,7 +26,8 @@ class Galeri extends CI_Controller {
         $this->load->view('admin/galeri/galeri_add',$data);
     }
 
-    public function galeri_addsave() {
+    public function galeri_addsave() 
+    {
         $config['upload_path']   = './uploads/galeri/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['max_size']      = 2048;

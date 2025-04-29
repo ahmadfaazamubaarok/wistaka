@@ -1,9 +1,10 @@
 <?php
 class Artikel extends CI_Controller {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -18,7 +19,8 @@ class Artikel extends CI_Controller {
         exit;
     }
 
-    private function generate_slug($string) {
+    private function generate_slug($string)
+    {
         $slug = strtolower(trim($string));
         $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
         $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
@@ -26,25 +28,30 @@ class Artikel extends CI_Controller {
         return $slug;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->load->view('admin/artikel/artikel_view');
     }
 
-    public function artikel_daftar(){
+    public function artikel_daftar()
+    {
         $data['artikel'] = $this->artikel_model->get_artikel();
         $this->load->view('admin/artikel/artikel_daftar',$data);
     }
 
-    public function artikel_add(){
+    public function artikel_add()
+    {
         $this->load->view('admin/artikel/artikel_add');
     }
 
-    public function artikel_edit($id_artikel){
+    public function artikel_edit($id_artikel)
+    {
         $data['artikel'] = $this->artikel_model->get_artikel_by_id_artikel($id_artikel);
         $this->load->view('admin/artikel/artikel_edit',$data);
     }
 
-    public function artikel_addsave() {
+    public function artikel_addsave()
+    {
         $this->load->library('upload'); // Load library upload
         header('Content-Type: application/json');
 
@@ -109,7 +116,8 @@ class Artikel extends CI_Controller {
         redirect('admin/artikel');
     }
 
-    public function artikel_editsave() {
+    public function artikel_editsave()
+    {
         $this->load->library('upload');
         header('Content-Type: application/json');
 
@@ -182,7 +190,8 @@ class Artikel extends CI_Controller {
         redirect('admin/artikel');
     }
 
-    public function artikel_delete() {
+    public function artikel_delete()
+    {
         $id_artikel = $this->input->post('id_artikel', TRUE);
 
         if (!$id_artikel) {

@@ -1,9 +1,10 @@
 <?php
 class Wisata extends CI_Controller {
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -18,7 +19,8 @@ class Wisata extends CI_Controller {
         exit;
     }
 
-    private function generate_slug($string) {
+    private function generate_slug($string) 
+    {
         $slug = strtolower(trim($string));
         $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug); // Hapus karakter aneh
         $slug = preg_replace('/[\s-]+/', '-', $slug);      // Ganti spasi dan minus ganda jadi satu minus
@@ -26,27 +28,32 @@ class Wisata extends CI_Controller {
         return $slug;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->load->view('admin/wisata/wisata_view');
     }
 
-    public function wisata_daftar(){
+    public function wisata_daftar()
+    {
         $data['wisata'] = $this->wisata_model->get_wisata();
         $this->load->view('admin/wisata/wisata_daftar',$data);
     }
 
-    public function wisata_add(){
+    public function wisata_add()
+    {
         $data['kategori'] = $this->kategori_model->get_kategori();
         $this->load->view('admin/wisata/wisata_add',$data);
     }
 
-    public function wisata_edit($id_wisata){
+    public function wisata_edit($id_wisata)
+    {
         $data['wisata'] = $this->wisata_model->get_wisata_by_id_wisata($id_wisata);
         $data['kategori'] = $this->kategori_model->get_kategori();
         $this->load->view('admin/wisata/wisata_edit',$data);
     }
 
-    public function wisata_addsave() {
+    public function wisata_addsave() 
+    {
         $this->load->library('upload');
         header('Content-Type: application/json');
 
@@ -106,6 +113,31 @@ class Wisata extends CI_Controller {
 
         if ($this->wisata_model->insert_wisata($data)) {
             $this->session->set_flashdata('sukses', 'Sukses menambahkan wisata');
+            //kirim email otomatis
+            $this->load->library('email'); // Ini otomatis load config/email.php
+
+            //email ke admin
+            $this->email->from('Wistakatrip@gmail.com', 'Admin Wisata');
+            $this->email->to('Wistakatrip@gmail.com');
+            $this->email->subject('Konfirmasi Penambahan Wisata di Wistakatrip.com');
+
+            $message = "
+                <h3>".$this->session->userdata('admin')->username." barusaja menambahkan wisata baru!</h3>
+                <p>Berikut detail wisata:</p>
+                <ul>
+                    <li><b>Nama Wisata:</b> {$data['nama_wisata']}</li>
+                    <li><b>Deskripsi:</b> {$data['deskripsi_wisata']}</li>
+                    <li><b>Jam Buka:</b> {$data['jam_buka']}</li>
+                    <li><b>Harga Masuk:</b> Rp. {$data['harga_masuk']}</li>
+                    <li><b>Alamat:</b> {$data['alamat']}</li>
+                </ul>
+            ";
+
+            $this->email->message($message);
+
+            if (!$this->email->send()) {
+                log_message('error', 'Email gagal dikirim: ' . $this->email->print_debugger());
+            }
         } else {
             $this->session->set_flashdata('gagal', 'Gagal menambahkan wisata');
         }
@@ -114,7 +146,8 @@ class Wisata extends CI_Controller {
     }
 
 
-    public function wisata_editsave() {
+    public function wisata_editsave() 
+    {
         $id_wisata = $this->input->post('id_wisata');
         $this->load->library('upload');
         header('Content-Type: application/json');
@@ -184,7 +217,8 @@ class Wisata extends CI_Controller {
         redirect('admin/wisata');
     }
 
-    public function wisata_delete() {
+    public function wisata_delete() 
+    {
         $id_wisata = $this->input->post('id_wisata', TRUE);
 
         if (!$id_wisata) {

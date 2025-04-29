@@ -1,9 +1,10 @@
 <?php
 class unggulan extends CI_Controller {
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
-        if (!$this->session->userdata('user')) {
+        if (!$this->session->userdata('admin')) {
             redirect('auth');
         }
     }
@@ -18,25 +19,30 @@ class unggulan extends CI_Controller {
         exit;
     }
 
-    public function index(){
+    public function index()
+    {
         $this->load->view('admin/unggulan/unggulan_view');
     }
 
-    public function unggulan_daftar(){
+    public function unggulan_daftar()
+    {
         $data['unggulan'] = $this->unggulan_model->get_unggulan();
         $this->load->view('admin/unggulan/unggulan_daftar',$data);
     }
 
-    public function unggulan_add(){
+    public function unggulan_add()
+    {
         $this->load->view('admin/unggulan/unggulan_add');
     }
 
-    public function unggulan_edit($id_unggulan){
+    public function unggulan_edit($id_unggulan)
+    {
         $data['unggulan'] = $this->unggulan_model->get_unggulan_by_id_unggulan($id_unggulan);
         $this->load->view('admin/unggulan/unggulan_edit',$data);
     }
 
-    public function unggulan_addsave() {
+    public function unggulan_addsave() 
+    {
         $this->load->library('upload'); // Load library upload
         header('Content-Type: application/json');
 
@@ -98,7 +104,8 @@ class unggulan extends CI_Controller {
         $this->set_output($response);
     }
 
-    public function unggulan_editsave() {
+    public function unggulan_editsave() 
+    {
         $this->load->library('upload');
         header('Content-Type: application/json');
 
@@ -169,7 +176,8 @@ class unggulan extends CI_Controller {
         }
     }
 
-    public function unggulan_delete() {
+    public function unggulan_delete() 
+    {
         $id_unggulan = $this->input->post('id_unggulan', TRUE);
 
         if (!$id_unggulan) {

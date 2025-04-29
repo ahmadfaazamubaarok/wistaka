@@ -260,9 +260,9 @@ p {
 <br><br>
 <div class="container">
     <h1 class="mb-3">Tambah Wisata</h1>
-    <form action="<?= site_url('wisata/wisata_addsave') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= site_url('kontribusi/wisata_addsave') ?>" method="POST" enctype="multipart/form-data">
         <label>Kontak:</label>
-        <input type="text" name="kontak" class="form-control bg-white" required>
+        <input type="text" name="kontak" class="form-control bg-white" value="<?= $this->session->userdata('user')['email_address'] ?>" required readonly>
 
         <label>Nama Wisata:</label>
         <input type="text" name="nama_wisata" class="form-control bg-white" required>

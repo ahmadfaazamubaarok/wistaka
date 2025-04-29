@@ -1,5 +1,5 @@
-      </div><!-- container fluid end -->
-   </div><!-- body wrapper end -->
+    </div><!-- container fluid end -->
+  </div><!-- body wrapper end -->
 </div><!-- page wrapper end -->
 <script src="<?= base_url() ?>assets/admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url() ?>assets/admin/js/sidebarmenu.js"></script>
